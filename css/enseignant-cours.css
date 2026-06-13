@@ -1,0 +1,40 @@
+.conteneur-formulaire-cours {
+    max-width: 860px;
+}
+
+.header-formulaire {
+    margin-bottom: 24px;
+}
+
+.header-formulaire h1 {
+    margin-bottom: 8px;
+    font-size: 30px;
+}
+
+.header-formulaire p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.formulaire-cours {
+    padding: 24px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+.liste-enseignant {
+    margin-top: 24px;
+    padding: 22px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+}
+
+.liste-enseignant h2 {
+    margin-bottom: 14px;
+}
+
+.tableau-simple {
+    min-height: 90px;
+}

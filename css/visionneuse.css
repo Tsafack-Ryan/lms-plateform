@@ -1,0 +1,93 @@
+.conteneur-visionneuse {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+}
+
+#barre-cours {
+    align-self: start;
+    padding: 22px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+#btn-retour-catalogue {
+    margin-bottom: 18px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    padding: 10px 12px;
+    background: #f8fafc;
+    font-weight: 800;
+}
+
+#titre-cours-visionneuse {
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.barre-progression-cours {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+#pourcentage-cours {
+    color: var(--couleur-texte-secondaire);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#liste-chapitres {
+    display: grid;
+    gap: 8px;
+}
+
+#zone-lecture-lecon {
+    min-height: 520px;
+    padding: 28px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+#header-lecon {
+    margin-bottom: 20px;
+}
+
+#titre-lecon-actuelle {
+    font-size: 30px;
+}
+
+#contenu-texte-lecon {
+    min-height: 300px;
+}
+
+#barre-actions-lecon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+#barre-actions-lecon button {
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    padding: 11px 14px;
+    background: #f8fafc;
+    font-weight: 800;
+}
+
+#barre-actions-lecon .btn-action-majeure {
+    border-color: var(--couleur-primaire);
+    background: var(--couleur-primaire);
+    color: #ffffff;
+}
+
+@media (max-width: 900px) {
+    .conteneur-visionneuse {
+        grid-template-columns: 1fr;
+    }
+}

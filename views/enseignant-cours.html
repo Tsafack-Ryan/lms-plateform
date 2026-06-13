@@ -1,0 +1,40 @@
+<div class="conteneur-formulaire-cours">
+    <div class="header-formulaire">
+        <h1>Gestion des cours</h1>
+        <p>Definissez le module, le titre et la description du cours.</p>
+    </div>
+
+    <form id="formulaire-cours" class="formulaire-cours">
+        <div class="groupe-saisie">
+            <label for="titre-cours">Titre du cours</label>
+            <input type="text" id="titre-cours" placeholder="Ex: Introduction au HTML" required>
+        </div>
+
+        <div class="groupe-saisie">
+            <label for="module-cours">Module</label>
+            <select id="module-cours" required>
+                <option value="">Selectionner un module</option>
+                <option value="html-css">HTML & CSS</option>
+                <option value="javascript">JavaScript</option>
+                <option value="php-mysql">PHP & MySQL</option>
+            </select>
+        </div>
+
+        <div class="groupe-saisie">
+            <label for="description-cours">Description</label>
+            <textarea id="description-cours" rows="5" placeholder="Decrivez le contenu du cours..." required></textarea>
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit">Enregistrer le cours</button>
+            <button type="button" class="btn-secondaire">Annuler</button>
+        </div>
+    </form>
+
+    <section class="liste-enseignant">
+        <h2>Mes cours</h2>
+        <div id="liste-cours-enseignant" class="tableau-simple">
+            <p class="message-vide">Aucun cours ajoute pour le moment.</p>
+        </div>
+    </section>
+</div>

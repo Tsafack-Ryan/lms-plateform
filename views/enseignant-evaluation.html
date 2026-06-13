@@ -1,0 +1,58 @@
+<div class="conteneur-evaluation">
+    <div class="header-formulaire">
+        <h1>Ajouter une evaluation</h1>
+        <p>Creez les questions qui permettront de valider une lecon.</p>
+    </div>
+
+    <form id="formulaire-evaluation" class="formulaire-evaluation">
+        <div class="groupe-saisie">
+            <label for="lecon-evaluation">Lecon associee</label>
+            <select id="lecon-evaluation" required>
+                <option value="">Selectionner une lecon</option>
+            </select>
+        </div>
+
+        <div class="groupe-saisie">
+            <label for="question-evaluation">Question</label>
+            <textarea id="question-evaluation" rows="3" placeholder="Saisissez la question..." required></textarea>
+        </div>
+
+        <div class="grille-options">
+            <div class="groupe-saisie">
+                <label for="option-a">Option A</label>
+                <input type="text" id="option-a" required>
+            </div>
+
+            <div class="groupe-saisie">
+                <label for="option-b">Option B</label>
+                <input type="text" id="option-b" required>
+            </div>
+
+            <div class="groupe-saisie">
+                <label for="option-c">Option C</label>
+                <input type="text" id="option-c">
+            </div>
+
+            <div class="groupe-saisie">
+                <label for="option-d">Option D</label>
+                <input type="text" id="option-d">
+            </div>
+        </div>
+
+        <div class="groupe-saisie">
+            <label for="bonne-reponse">Bonne reponse</label>
+            <select id="bonne-reponse" required>
+                <option value="">Selectionner</option>
+                <option value="A">Option A</option>
+                <option value="B">Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+            </select>
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit">Ajouter la question</button>
+            <button type="button" class="btn-secondaire">Terminer</button>
+        </div>
+    </form>
+</div>

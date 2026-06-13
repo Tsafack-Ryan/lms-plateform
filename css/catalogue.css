@@ -1,0 +1,43 @@
+.conteneur-catalogue {
+    width: 100%;
+}
+
+.header-catalogue {
+    margin-bottom: 24px;
+}
+
+.header-catalogue h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+.header-catalogue p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.barre-filtres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.btn-filter {
+    border: 1px solid var(--couleur-bordure);
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: #ffffff;
+    color: var(--couleur-texte-secondaire);
+    font-weight: 800;
+}
+
+.btn-filter:hover,
+.btn-filter.active {
+    border-color: var(--couleur-primaire);
+    background: #eaf1ff;
+    color: var(--couleur-primaire);
+}
+
+#grille-catalogue-cours {
+    min-height: 220px;
+}

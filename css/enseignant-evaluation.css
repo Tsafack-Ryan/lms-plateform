@@ -1,0 +1,27 @@
+.conteneur-evaluation {
+    max-width: 900px;
+}
+
+.formulaire-evaluation {
+    padding: 24px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+.grille-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 700px) {
+    .grille-options {
+        grid-template-columns: 1fr;
+    }
+
+    .actions-formulaire {
+        flex-direction: column;
+    }
+}

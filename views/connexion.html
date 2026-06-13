@@ -1,36 +1,69 @@
 <div class="conteneur-connexion">
-    <div class="connexion-card" id="connexion-box">
+    <div class="carte-connexion" id="connexion-box">
         <div class="connexion-header">
-            <h2>Bienvenu sur l'espace Apprentissage</h2>
-            <p>Connectez-vous pour poursuivre votre cours HTML, CSS et JavaScript.</p>
+            <span class="badge-plateforme">LMS Apprentissage Web</span>
+            <h2>Connexion a la plateforme</h2>
+            <p>Choisissez votre espace puis connectez-vous pour continuer.</p>
         </div>
         <form id="formulaire-connexion">
+            <div class="choix-role" role="group" aria-label="Type de compte">
+                <label class="option-role active">
+                    <input type="radio" name="role-utilisateur" value="etudiant" checked>
+                    <span>Etudiant</span>
+                </label>
+                <label class="option-role">
+                    <input type="radio" name="role-utilisateur" value="enseignant">
+                    <span>Enseignant</span>
+                </label>
+            </div>
             <div class="groupe-saisie">
                 <label for="saisie-nom">Votre nom</label>
                 <input type="text" id="saisie-nom" placeholder="Entrez votre nom..." required>
             </div>
-            <button type="submit" id="btn-connexion">Acceder a la plateforme</button>
+            <div class="groupe-saisie">
+                <label for="saisie-mot-passe">Mot de passe</label>
+                <input type="password" id="saisie-mot-passe" placeholder="Entrez votre mot de passe..." required>
+            </div>
+            <button type="submit" id="btn-connexion">Acceder a mon espace</button>
         </form>
-        <div class="pied=connexion">
-            <p>pas encore de compte ? <a href="#" id="inscription-link">Creer un compte</a></p>
+        <div class="pied-connexion">
+            <p>Pas encore de compte ? <a href="#" id="inscription-link">Creer un compte etudiant</a></p>
         </div>
     </div>
 
     <div class="carte-connexion masque" id="boite-inscription">
-        <div class="header-connexion">
+        <div class="connexion-header">
+            <span class="badge-plateforme">Inscription etudiant</span>
             <h2>Creer un compte</h2>
-            <p>Regoignez-nous pour commencer votre parcours d'apprentissage.</p>
+            <p>Rejoignez-nous pour commencer votre parcours d'apprentissage.</p>
         </div>
         <form id="formulaire-inscription">
+            <div class="choix-role" role="group" aria-label="Type de compte">
+                <label class="option-role active">
+                    <input type="radio" name="role-inscription" value="etudiant" checked>
+                    <span>Etudiant</span>
+                </label>
+                <label class="option-role">
+                    <input type="radio" name="role-inscription" value="enseignant">
+                    <span>Enseignant</span>
+                </label>
+            </div>
             <div class="groupe-saisie">
                 <label for="saisie-nom-inscription">Votre nom complet</label>
                 <input type="text" id="saisie-nom-inscription" placeholder="Entrez votre nom complet..." required>
             </div>
+            <div class="groupe-saisie">
+                <label for="saisie-email-inscription">Adresse email</label>
+                <input type="email" id="saisie-email-inscription" placeholder="exemple@email.com" required>
+            </div>
+            <div class="groupe-saisie">
+                <label for="saisie-password-inscription">Mot de passe</label>
+                <input type="password" id="saisie-password-inscription" placeholder="Creez un mot de passe..." required>
+            </div>
             <button type="submit" id="bouton-inscription">S'inscrire et commencer</button>
         </form>
         <div class="footer-connexion">
-            <p>Vous avez deja un compte ?<a href="#" id="connexion-link">connectez-vous</a></p>
+            <p>Vous avez deja un compte ? <a href="#" id="connexion-link">Connectez-vous</a></p>
         </div>
     </div>
-
 </div>

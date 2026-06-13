@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/connexion.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/catalogue.css">
+    <link rel="stylesheet" href="css/visionneuse.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/certificat.css">
+    <link rel="stylesheet" href="css/enseignant-dashboard.css">
+    <link rel="stylesheet" href="css/enseignant-cours.css">
+    <link rel="stylesheet" href="css/enseignant-lecon.css">
+    <link rel="stylesheet" href="css/enseignant-evaluation.css">
     <title>LMS Apprentissage Web</title>
 </head>
 
@@ -17,19 +27,28 @@
                 <h2>APPRENDRE</h2>
             </div>
             <nav id="menu-navigation">
-                <a href="#dashboard" class="link active" id="dashbord-link">Tableau de bord</a>
-                <a href="#catalogue" class="nav-link" id="catalogue-link">Catalogue des cours</a>
-                <a href="#certificats" class="nav-link" id="certificats-link">Mes Certificats</a>
+                <p class="titre-menu" data-role-menu="etudiant">Espace etudiant</p>
+                <a href="#dashboard" class="nav-link active" id="dashboard-link" data-role-menu="etudiant">Tableau de bord</a>
+                <a href="#catalogue" class="nav-link" id="catalogue-link" data-role-menu="etudiant">Catalogue des cours</a>
+                <a href="#certificats" class="nav-link" id="certificats-link" data-role-menu="etudiant">Mes Certificats</a>
+                <p class="titre-menu" data-role-menu="enseignant">Espace enseignant</p>
+                <a href="#enseignant-dashboard" class="nav-link" id="enseignant-dashboard-link" data-role-menu="enseignant">Tableau de bord</a>
+                <a href="#enseignant-cours" class="nav-link" id="enseignant-cours-link" data-role-menu="enseignant">Cours</a>
+                <a href="#enseignant-lecon" class="nav-link" id="enseignant-lecon-link" data-role-menu="enseignant">Lecons</a>
+                <a href="#enseignant-evaluation" class="nav-link" id="enseignant-evaluation-link" data-role-menu="enseignant">Evaluations</a>
+                <p class="titre-menu" data-role-menu="promoteur">Espace promoteur</p>
+                <a href="#promoteur-modules" class="nav-link" id="promoteur-modules-link" data-role-menu="promoteur">Modules</a>
             </nav>
             <div id="user-zone">
                 <span id="user-connected">Etudiant</span>
-                <button id="deconnexion-btn">Deconnexion</button>
+                <button id="deconnexion-btn" type="button">Deconnexion</button>
             </div>
         </aside>
         <main id="zone-contenu">
 
         </main>
     </div>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

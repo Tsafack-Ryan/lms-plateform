@@ -1,0 +1,75 @@
+.conteneur-certificats {
+    width: 100%;
+}
+
+.header-certificats {
+    margin-bottom: 24px;
+}
+
+.header-certificats h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+.header-certificats p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.grille-certificats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+#modal-certificat {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.boite-modale-certificat {
+    width: min(100%, 820px);
+    position: relative;
+    padding: 28px;
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+}
+
+#btn-fermer-modale {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: 999px;
+    background: #f8fafc;
+    font-weight: 900;
+}
+
+#zone-rendu-certificat {
+    min-height: 360px;
+    border: 2px solid #c9a227;
+    border-radius: var(--rayon);
+    background: #fffdf5;
+}
+
+.actions-modale {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+
+#btn-imprimer-certificat {
+    border: none;
+    border-radius: var(--rayon);
+    padding: 12px 18px;
+    background: var(--couleur-primaire);
+    color: #ffffff;
+    font-weight: 800;
+}

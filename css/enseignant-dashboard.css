@@ -1,0 +1,97 @@
+.dashboard-enseignant {
+    width: 100%;
+}
+
+.header-dashboard-enseignant {
+    margin-bottom: 28px;
+    padding: 28px;
+    border-radius: var(--rayon);
+    background: #0f172a;
+    color: #ffffff;
+}
+
+.header-dashboard-enseignant h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+.header-dashboard-enseignant p {
+    color: #cbd5e1;
+}
+
+.stats-enseignant {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.carte-stat-enseignant {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid #99f6e4;
+    border-radius: var(--rayon);
+    background: #f0fdfa;
+}
+
+.icone-stat-enseignant {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: var(--rayon);
+    background: var(--couleur-secondaire);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.details-stat-enseignant h3 {
+    font-size: 28px;
+}
+
+.details-stat-enseignant p {
+    color: #115e59;
+    font-size: 14px;
+}
+
+.bloc-enseignant {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+.bloc-enseignant h2 {
+    margin-bottom: 8px;
+}
+
+.bloc-enseignant p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.actions-enseignant {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+@media (max-width: 700px) {
+    .stats-enseignant {
+        grid-template-columns: 1fr;
+    }
+
+    .bloc-enseignant {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

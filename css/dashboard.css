@@ -1,0 +1,101 @@
+.dashboard-etudiant {
+    width: 100%;
+}
+
+.header-dashboard-etudiant {
+    margin-bottom: 28px;
+    padding: 28px;
+    border-radius: var(--rayon);
+    background: linear-gradient(135deg, #ffffff 0%, #eaf1ff 100%);
+    border: 1px solid var(--couleur-bordure);
+}
+
+.header-dashboard-etudiant h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+}
+
+.header-dashboard-etudiant p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.stats-etudiant {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.carte-stat-etudiant {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--rayon);
+    background: #ffffff;
+    box-shadow: var(--ombre-carte);
+}
+
+.icone-stat-etudiant {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: var(--rayon);
+    background: #dbeafe;
+    color: var(--couleur-primaire);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.details-stat-etudiant h3 {
+    font-size: 28px;
+}
+
+.details-stat-etudiant p {
+    color: var(--couleur-texte-secondaire);
+    font-size: 14px;
+}
+
+.gbl-progression-card,
+.zone-cours-actifs {
+    margin-bottom: 24px;
+    padding: 24px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+.gbl-progression-card h2,
+.zone-cours-actifs h2 {
+    margin-bottom: 16px;
+    font-size: 22px;
+}
+
+.conteneur-barre-progression {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 14px;
+}
+
+#pourcentage-progression {
+    color: var(--couleur-succes);
+    font-weight: 800;
+}
+
+.grille-cours {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+@media (max-width: 900px) {
+    .stats-etudiant {
+        grid-template-columns: 1fr;
+    }
+}

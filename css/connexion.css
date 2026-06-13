@@ -1,0 +1,103 @@
+.conteneur-connexion {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    background: var(--couleur-fond);
+}
+
+.carte-connexion {
+    width: min(100%, 480px);
+    padding: 30px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: var(--couleur-surface);
+    box-shadow: var(--ombre-carte);
+}
+
+.connexion-header {
+    margin-bottom: 24px;
+}
+
+.badge-plateforme {
+    display: inline-flex;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #eaf1ff;
+    color: var(--couleur-primaire);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.connexion-header h2 {
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.connexion-header p,
+.pied-connexion p,
+.footer-connexion p {
+    color: var(--couleur-texte-secondaire);
+}
+
+.choix-role {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.option-role {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    background: #f8fafc;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.option-role input {
+    position: absolute;
+    opacity: 0;
+}
+
+.option-role:has(input:checked),
+.option-role.active {
+    border-color: var(--couleur-primaire);
+    background: #eaf1ff;
+    color: var(--couleur-primaire);
+}
+
+#btn-connexion,
+#bouton-inscription {
+    width: 100%;
+    min-height: 46px;
+    border: none;
+    border-radius: var(--rayon);
+    background: var(--couleur-primaire);
+    color: #ffffff;
+    font-weight: 800;
+}
+
+#btn-connexion:hover,
+#bouton-inscription:hover {
+    background: var(--couleur-primaire-foncee);
+}
+
+.pied-connexion,
+.footer-connexion {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.pied-connexion a,
+.footer-connexion a {
+    color: var(--couleur-primaire);
+    font-weight: 800;
+}
