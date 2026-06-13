@@ -1,5 +1,5 @@
 <div class="conteneur-connexion">
-    <div class="connexion-zone">
+    <div class="connexion-card" id="connexion-box">
         <div class="connexion-header">
             <h2>Bienvenu sur l'espace Apprentissage</h2>
             <p>Connectez-vous pour poursuivre votre cours HTML, CSS et JavaScript.</p>
@@ -11,5 +11,26 @@
             </div>
             <button type="submit" id="btn-connexion">Acceder a la plateforme</button>
         </form>
+        <div class="pied=connexion">
+            <p>pas encore de compte ? <a href="#" id="inscription-link">Creer un compte</a></p>
+        </div>
     </div>
+
+    <div class="carte-connexion masque" id="boite-inscription">
+        <div class="header-connexion">
+            <h2>Creer un compte</h2>
+            <p>Regoignez-nous pour commencer votre parcours d'apprentissage.</p>
+        </div>
+        <form id="formulaire-inscription">
+            <div class="groupe-saisie">
+                <label for="saisie-nom-inscription">Votre nom complet</label>
+                <input type="text" id="saisie-nom-inscription" placeholder="Entrez votre nom complet..." required>
+            </div>
+            <button type="submit" id="bouton-inscription">S'inscrire et commencer</button>
+        </form>
+        <div class="footer-connexion">
+            <p>Vous avez deja un compte ?<a href="#" id="connexion-link">connectez-vous</a></p>
+        </div>
+    </div>
+
 </div>

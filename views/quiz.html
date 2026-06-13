@@ -1,0 +1,38 @@
+<div class="conteneur-quiz">
+    <div class="carte-quiz" id="boite-quiz">
+        <div id="quiz-introduction">
+            <h2 id="titre-quiz-intro">Quiz de validation</h2>
+            <p>Ce quiz comporte <span id="nombre-total-questions">5</span> questions. Vous devez obtenir au moins **80%
+                de bonnes réponses** pour débloquer votre certificat.</p>
+        </div>
+        <p id="avertissement-minuteur">Attention: vous avez un temps limité par question !</p>
+        <button id="btn-lancer-quiz">Commencer le quiz</button>
+    </div>
+
+    <div id="quiz-jeu" class="masque">
+        <div class="quiz-header">
+            <span id="indicateur-question">Question 1/5</span>
+            <div id="minuteur-boite">⏱️ <span id="temps-restant">20</span>s</div>
+        </div>
+
+        <div id="conteneur-question">
+            <h3 id="texte-question">Chargement de la question...</h3>
+            <div id="liste-option-quiz">
+
+            </div>
+        </div>
+        <button id="btn-valider-option" disabled>Valider ma reponse</button>
+    </div>
+
+    <div id="quiz-resultats" class="masque">
+        <span id="icone-resultat">🎉</span>
+        <h2 id="titre-resultat">Quiz Terminé !</h2>
+        <p id="texte-score">Votre score : 0/0</p>
+        <p id="feedback-resultat">Félicitations, vous avez validé ce module !</p>
+        <div class="actions-resultats">
+            <button id="btn-retour-cours" class="btn-secondaire">Retour au Cours</button>
+            <button id="btn-voir-certificat" class="btn-action-majeure-masque">Voir mon certificat</button>
+            <button id="btn-recommencer-quiz" class="btn-secondaire-masque">Recommencer le quiz</button>
+        </div>
+    </div>
+</div>
