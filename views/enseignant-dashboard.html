@@ -36,8 +36,21 @@
             <p id="resume-enseignant">Les derniers cours et evaluations crees apparaitront ici.</p>
         </div>
         <div class="actions-enseignant">
-            <a href="#enseignant-cours" class="btn-action-majeure">Ajouter un cours</a>
-            <a href="#enseignant-evaluation" class="btn-secondaire">Ajouter une evaluation</a>
+            <button class="btn-action-majeure" onclick="naviguer('enseignant-cours')">Ajouter un cours</button>
+            <button class="btn-secondaire" onclick="naviguer('enseignant-evaluation')">Ajouter une evaluation</button>
         </div>
     </div>
+
+    <section class="liste-enseignant liste-dashboard-enseignant">
+        <div class="entete-section-enseignant">
+            <div>
+                <h2>Mes cours publies</h2>
+                <p>Retrouvez vos cours deja publies et corrigez-les si necessaire.</p>
+            </div>
+            <button class="btn-action-majeure" onclick="naviguer('enseignant-cours')">Nouveau cours</button>
+        </div>
+        <div id="liste-cours-enseignant" class="tableau-simple">
+            <p class="message-vide">Aucun cours ajoute pour le moment.</p>
+        </div>
+    </section>
 </div>

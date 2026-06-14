@@ -7,19 +7,19 @@
     <form id="formulaire-lecon" class="formulaire-lecon">
         <div class="groupe-saisie">
             <label for="cours-lecon">Cours associe</label>
-            <select id="cours-lecon" required>
+            <select id="cours-lecon" name="cours_id" required>
                 <option value="">Selectionner un cours</option>
             </select>
         </div>
 
         <div class="groupe-saisie">
             <label for="titre-lecon">Titre de la lecon</label>
-            <input type="text" id="titre-lecon" placeholder="Ex: Les balises HTML de base" required>
+            <input type="text" id="titre-lecon" name="titre" placeholder="Ex: Les balises HTML de base" required>
         </div>
 
         <div class="groupe-saisie">
             <label for="type-contenu">Type de contenu</label>
-            <select id="type-contenu" required>
+            <select id="type-contenu" name="type_contenu" required>
                 <option value="">Choisir un type</option>
                 <option value="pdf">Document PDF</option>
                 <option value="video">Video</option>
@@ -28,12 +28,12 @@
 
         <div class="groupe-saisie">
             <label for="fichier-lecon">Fichier de la lecon</label>
-            <input type="file" id="fichier-lecon" accept=".pdf,video/*" required>
+            <input type="file" id="fichier-lecon" name="fichier" accept=".pdf,video/*" required>
         </div>
 
         <div class="groupe-saisie">
             <label for="ordre-lecon">Ordre de la lecon</label>
-            <input type="number" id="ordre-lecon" min="1" required>
+            <input type="number" id="ordre-lecon" name="ordre" min="1" required>
         </div>
 
         <div class="actions-formulaire">
@@ -41,4 +41,11 @@
             <button type="button" class="btn-secondaire">Annuler</button>
         </div>
     </form>
+
+    <section class="liste-enseignant">
+        <h2>Lecons publiees</h2>
+        <div id="liste-lecons-enseignant" class="tableau-simple">
+            <p class="message-vide">Aucune lecon ajoutee pour le moment.</p>
+        </div>
+    </section>
 </div>

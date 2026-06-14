@@ -1,28 +1,32 @@
 <div class="conteneur-connexion">
     <div class="carte-connexion" id="connexion-box">
         <div class="connexion-header">
-            <span class="badge-plateforme">LMS Apprentissage Web</span>
+            <span class="badge-plateforme">STARACADEMY</span>
             <h2>Connexion a la plateforme</h2>
             <p>Choisissez votre espace puis connectez-vous pour continuer.</p>
         </div>
         <form id="formulaire-connexion">
             <div class="choix-role" role="group" aria-label="Type de compte">
-                <label class="option-role active">
-                    <input type="radio" name="role-utilisateur" value="etudiant" checked>
+                <label class="option-role">
+                    <input type="radio" name="role" value="etudiant" checked>
                     <span>Etudiant</span>
                 </label>
                 <label class="option-role">
-                    <input type="radio" name="role-utilisateur" value="enseignant">
+                    <input type="radio" name="role" value="enseignant">
                     <span>Enseignant</span>
+                </label>
+                <label class="option-role">
+                    <input type="radio" name="role" value="promoteur">
+                    <span>Promoteur</span>
                 </label>
             </div>
             <div class="groupe-saisie">
                 <label for="saisie-nom">Votre nom</label>
-                <input type="text" id="saisie-nom" placeholder="Entrez votre nom..." required>
+                <input type="text" id="saisie-nom" name="nom" placeholder="Entrez votre nom..." required>
             </div>
             <div class="groupe-saisie">
                 <label for="saisie-mot-passe">Mot de passe</label>
-                <input type="password" id="saisie-mot-passe" placeholder="Entrez votre mot de passe..." required>
+                <input type="password" id="saisie-mot-passe" name="mot_de_passe" placeholder="Entrez votre mot de passe..." required>
             </div>
             <button type="submit" id="btn-connexion">Acceder a mon espace</button>
         </form>
@@ -33,32 +37,32 @@
 
     <div class="carte-connexion masque" id="boite-inscription">
         <div class="connexion-header">
-            <span class="badge-plateforme">Inscription etudiant</span>
+            <span class="badge-plateforme">STARACADEMY — Inscription</span>
             <h2>Creer un compte</h2>
             <p>Rejoignez-nous pour commencer votre parcours d'apprentissage.</p>
         </div>
         <form id="formulaire-inscription">
             <div class="choix-role" role="group" aria-label="Type de compte">
-                <label class="option-role active">
-                    <input type="radio" name="role-inscription" value="etudiant" checked>
+                <label class="option-role">
+                    <input type="radio" name="role" value="etudiant" checked>
                     <span>Etudiant</span>
                 </label>
                 <label class="option-role">
-                    <input type="radio" name="role-inscription" value="enseignant">
+                    <input type="radio" name="role" value="enseignant">
                     <span>Enseignant</span>
                 </label>
             </div>
             <div class="groupe-saisie">
                 <label for="saisie-nom-inscription">Votre nom complet</label>
-                <input type="text" id="saisie-nom-inscription" placeholder="Entrez votre nom complet..." required>
+                <input type="text" id="saisie-nom-inscription" name="nom" placeholder="Entrez votre nom complet..." required>
             </div>
             <div class="groupe-saisie">
                 <label for="saisie-email-inscription">Adresse email</label>
-                <input type="email" id="saisie-email-inscription" placeholder="exemple@email.com" required>
+                <input type="email" id="saisie-email-inscription" name="email" placeholder="exemple@email.com" required>
             </div>
             <div class="groupe-saisie">
                 <label for="saisie-password-inscription">Mot de passe</label>
-                <input type="password" id="saisie-password-inscription" placeholder="Creez un mot de passe..." required>
+                <input type="password" id="saisie-password-inscription" name="mot_de_passe" placeholder="Creez un mot de passe..." required>
             </div>
             <button type="submit" id="bouton-inscription">S'inscrire et commencer</button>
         </form>

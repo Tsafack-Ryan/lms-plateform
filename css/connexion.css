@@ -43,7 +43,7 @@
 
 .choix-role {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -58,6 +58,8 @@
     border-radius: var(--rayon);
     background: #f8fafc;
     font-weight: 800;
+    font-size: 14px;
+    text-align: center;
     cursor: pointer;
 }
 

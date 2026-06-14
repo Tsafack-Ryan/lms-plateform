@@ -8,22 +8,24 @@
         <h3>Ajouter un nouveau module</h3>
         <form id="formulaire-module">
             <div class="groupe-saisie">
-                <label for="code-module">Code du module (ex: html-css)</label>
-                <input type="text" id="code-module" placeholder="Code unique..." required>
+                <label for="code-module"></label>
+                <input type="text" id="code-module" name="code" placeholder="Code unique du module (ex:HTML/CSS/JS)"
+                    required>
             </div>
             <div class="groupe-saisie">
                 <label for="titre-module">Titre du module</label>
-                <input type="text" id="titre-module" placeholder="Titre complet..." required>
+                <input type="text" id="titre-module" name="titre" placeholder="Titre complet du module" required>
             </div>
             <div class="groupe-saisie">
                 <label for="description-module">Description</label>
-                <textarea id="description-module" rows="3" placeholder="Description du module..."></textarea>
+                <textarea id="description-module" name="description" rows="3"
+                    placeholder="Description du module..."></textarea>
             </div>
             <button type="submit" class="btn-principal">Creer le module</button>
         </form>
     </div>
 
-    <div class="liste-carte">
+    <div class="liste-carte liste-modules-promoteur">
         <h3>Modules existants</h3>
         <div id="liste-modules" class="grille-simple">
             <!-- Charge par JS -->

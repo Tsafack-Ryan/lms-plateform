@@ -85,12 +85,38 @@
     gap: 12px;
 }
 
+.liste-dashboard-enseignant {
+    margin-top: 24px;
+}
+
+.entete-section-enseignant {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.entete-section-enseignant h2 {
+    margin-bottom: 6px;
+}
+
+.entete-section-enseignant p {
+    color: var(--couleur-texte-secondaire);
+    font-size: 14px;
+}
+
 @media (max-width: 700px) {
     .stats-enseignant {
         grid-template-columns: 1fr;
     }
 
     .bloc-enseignant {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .entete-section-enseignant {
         align-items: stretch;
         flex-direction: column;
     }

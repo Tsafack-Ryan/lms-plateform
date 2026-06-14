@@ -7,22 +7,19 @@
     <form id="formulaire-cours" class="formulaire-cours">
         <div class="groupe-saisie">
             <label for="titre-cours">Titre du cours</label>
-            <input type="text" id="titre-cours" placeholder="Ex: Introduction au HTML" required>
+            <input type="text" id="titre-cours" name="titre" placeholder="Ex: Introduction au HTML" required>
         </div>
 
         <div class="groupe-saisie">
             <label for="module-cours">Module</label>
-            <select id="module-cours" required>
+            <select id="module-cours" name="module" required>
                 <option value="">Selectionner un module</option>
-                <option value="html-css">HTML & CSS</option>
-                <option value="javascript">JavaScript</option>
-                <option value="php-mysql">PHP & MySQL</option>
             </select>
         </div>
 
         <div class="groupe-saisie">
             <label for="description-cours">Description</label>
-            <textarea id="description-cours" rows="5" placeholder="Decrivez le contenu du cours..." required></textarea>
+            <textarea id="description-cours" name="description" rows="5" placeholder="Decrivez le contenu du cours..." required></textarea>
         </div>
 
         <div class="actions-formulaire">

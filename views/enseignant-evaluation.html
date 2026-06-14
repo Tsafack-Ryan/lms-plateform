@@ -7,41 +7,41 @@
     <form id="formulaire-evaluation" class="formulaire-evaluation">
         <div class="groupe-saisie">
             <label for="lecon-evaluation">Lecon associee</label>
-            <select id="lecon-evaluation" required>
+            <select id="lecon-evaluation" name="lecon_id" required>
                 <option value="">Selectionner une lecon</option>
             </select>
         </div>
 
         <div class="groupe-saisie">
             <label for="question-evaluation">Question</label>
-            <textarea id="question-evaluation" rows="3" placeholder="Saisissez la question..." required></textarea>
+            <textarea id="question-evaluation" name="question" rows="3" placeholder="Saisissez la question..." required></textarea>
         </div>
 
         <div class="grille-options">
             <div class="groupe-saisie">
                 <label for="option-a">Option A</label>
-                <input type="text" id="option-a" required>
+                <input type="text" id="option-a" name="options[A]" required>
             </div>
 
             <div class="groupe-saisie">
                 <label for="option-b">Option B</label>
-                <input type="text" id="option-b" required>
+                <input type="text" id="option-b" name="options[B]" required>
             </div>
 
             <div class="groupe-saisie">
                 <label for="option-c">Option C</label>
-                <input type="text" id="option-c">
+                <input type="text" id="option-c" name="options[C]">
             </div>
 
             <div class="groupe-saisie">
                 <label for="option-d">Option D</label>
-                <input type="text" id="option-d">
+                <input type="text" id="option-d" name="options[D]">
             </div>
         </div>
 
         <div class="groupe-saisie">
             <label for="bonne-reponse">Bonne reponse</label>
-            <select id="bonne-reponse" required>
+            <select id="bonne-reponse" name="bonne_reponse" required>
                 <option value="">Selectionner</option>
                 <option value="A">Option A</option>
                 <option value="B">Option B</option>
@@ -55,4 +55,11 @@
             <button type="button" class="btn-secondaire">Terminer</button>
         </div>
     </form>
+
+    <section class="liste-enseignant">
+        <h2>Questions publiees</h2>
+        <div id="liste-evaluations-enseignant" class="tableau-simple">
+            <p class="message-vide">Aucune question ajoutee pour le moment.</p>
+        </div>
+    </section>
 </div>
