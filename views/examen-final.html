@@ -1,0 +1,35 @@
+<div class="conteneur-examen-final">
+    <div class="carte-examen" id="boite-examen-intro">
+        <h2>Examen final du cours</h2>
+        <p id="examen-cours-titre">Chargement...</p>
+        <p>Cet examen comporte <span id="nb-questions-examen">0</span> questions. Vous devez obtenir au moins 80% pour
+            obtenir votre certificat.</p>
+        <p class="avertissement-examen">Attention : vous avez un temps limite ! Une fois commence, l'examen ne peut pas
+            etre interrompu.</p>
+        <button id="btn-lancer-examen" class="btn-action-majeure">Commencer l'examen final</button>
+    </div>
+
+    <div id="examen-jeu" class="masque">
+        <div class="examen-header">
+            <span id="indicateur-question-examen">Question 1/5</span>
+            <div id="minuteur-examen">Temps restant: <span id="temps-restant-examen">60</span>s</div>
+        </div>
+        <div id="conteneur-question-examen">
+            <h3 id="texte-question-examen">Chargement...</h3>
+            <div id="liste-options-examen"></div>
+        </div>
+        <button id="btn-valider-examen" class="btn-action-majeure">Valider & Suivant</button>
+    </div>
+
+    <div id="examen-resultats" class="masque">
+        <span id="icone-resultat-examen"></span>
+        <h2>Examen termine !</h2>
+        <p id="texte-score-examen">Score: 0/0</p>
+        <p id="feedback-examen"></p>
+        <div class="actions-resultats">
+            <button id="btn-retour-cours-examen" class="btn-secondaire">Retour au catalogue</button>
+            <button id="btn-voir-certificat-examen" class="btn-action-majeure masque">Voir mon certificat</button>
+            <button id="btn-recommencer-examen" class="btn-secondaire masque">Recommencer</button>
+        </div>
+    </div>
+</div>

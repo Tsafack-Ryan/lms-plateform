@@ -44,6 +44,9 @@ if ($methode === 'GET') {
     }
     $evaluations = $requete->fetchAll();
 
+    // Mélanger les questions pour éviter l'ordre prévisible
+    shuffle($evaluations);
+
     foreach ($evaluations as &$evaluation) {
         $options = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_evaluation WHERE evaluation_id = ? ORDER BY code_option ASC');
         $options->execute([$evaluation['id']]);
@@ -124,28 +127,33 @@ if ($methode === 'PUT') {
         reponseJson(['succes' => false, 'message' => 'Lecon non autorisee.'], 403);
     }
 
-    $pdo->beginTransaction();
+    try {
+        $pdo->beginTransaction();
 
-    $stmt = $pdo->prepare('UPDATE evaluations SET lecon_id = ?, question = ? WHERE id = ?');
-    $stmt->execute([$leconId, $question, $id]);
+        $stmt = $pdo->prepare('UPDATE evaluations SET lecon_id = ?, question = ? WHERE id = ?');
+        $stmt->execute([$leconId, $question, $id]);
 
-    $stmt = $pdo->prepare('DELETE FROM options_evaluation WHERE evaluation_id = ?');
-    $stmt->execute([$id]);
+        $stmt = $pdo->prepare('DELETE FROM options_evaluation WHERE evaluation_id = ?');
+        $stmt->execute([$id]);
 
-    $insertionOption = $pdo->prepare(
-        'INSERT INTO options_evaluation (evaluation_id, code_option, libelle, est_correcte) VALUES (?, ?, ?, ?)'
-    );
+        $insertionOption = $pdo->prepare(
+            'INSERT INTO options_evaluation (evaluation_id, code_option, libelle, est_correcte) VALUES (?, ?, ?, ?)'
+        );
 
-    foreach ($optionsNettoyees as $code => $libelle) {
-        $insertionOption->execute([
-            $id,
-            $code,
-            $libelle,
-            $code === $bonneReponse ? 1 : 0,
-        ]);
+        foreach ($optionsNettoyees as $code => $libelle) {
+            $insertionOption->execute([
+                $id,
+                $code,
+                $libelle,
+                $code === $bonneReponse ? 1 : 0,
+            ]);
+        }
+
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        reponseJson(['succes' => false, 'message' => 'Erreur lors de la mise a jour: ' . $e->getMessage()], 500);
     }
-
-    $pdo->commit();
 
     reponseJson(['succes' => true, 'message' => 'Evaluation mise a jour.']);
 }
@@ -190,25 +198,30 @@ if (!$verification->fetchColumn()) {
     reponseJson(['succes' => false, 'message' => 'Lecon non autorisee.'], 403);
 }
 
-$pdo->beginTransaction();
+try {
+    $pdo->beginTransaction();
 
-$requete = $pdo->prepare('INSERT INTO evaluations (lecon_id, question) VALUES (?, ?)');
-$requete->execute([$leconId, $question]);
-$evaluationId = (int) $pdo->lastInsertId();
+    $requete = $pdo->prepare('INSERT INTO evaluations (lecon_id, question) VALUES (?, ?)');
+    $requete->execute([$leconId, $question]);
+    $evaluationId = (int) $pdo->lastInsertId();
 
-$insertionOption = $pdo->prepare(
-    'INSERT INTO options_evaluation (evaluation_id, code_option, libelle, est_correcte) VALUES (?, ?, ?, ?)'
-);
+    $insertionOption = $pdo->prepare(
+        'INSERT INTO options_evaluation (evaluation_id, code_option, libelle, est_correcte) VALUES (?, ?, ?, ?)'
+    );
 
-foreach ($optionsNettoyees as $code => $libelle) {
-    $insertionOption->execute([
-        $evaluationId,
-        $code,
-        $libelle,
-        $code === strtoupper((string) $bonneReponse) ? 1 : 0,
-    ]);
+    foreach ($optionsNettoyees as $code => $libelle) {
+        $insertionOption->execute([
+            $evaluationId,
+            $code,
+            $libelle,
+            $code === strtoupper((string) $bonneReponse) ? 1 : 0,
+        ]);
+    }
+
+    $pdo->commit();
+} catch (Exception $e) {
+    $pdo->rollBack();
+    reponseJson(['succes' => false, 'message' => 'Erreur lors de la creation: ' . $e->getMessage()], 500);
 }
-
-$pdo->commit();
 
 reponseJson(['succes' => true, 'message' => 'Evaluation ajoutee.', 'id' => $evaluationId]);

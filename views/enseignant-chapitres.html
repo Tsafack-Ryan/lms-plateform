@@ -1,0 +1,42 @@
+<div class="conteneur-chapitres">
+    <div class="header-formulaire">
+        <h1>Gestion des chapitres</h1>
+        <p>Organisez vos cours en chapitres et glissez les lecons.</p>
+    </div>
+
+    <div class="form-carte">
+        <h3>Ajouter un chapitre</h3>
+        <form id="formulaire-chapitre">
+            <div class="groupe-saisie">
+                <label for="cours-chapitre">Cours</label>
+                <select id="cours-chapitre" name="cours_id" required>
+                    <option value="">Selectionner un cours</option>
+                </select>
+            </div>
+            <div class="groupe-saisie">
+                <label for="titre-chapitre">Titre du chapitre</label>
+                <input type="text" id="titre-chapitre" name="titre" placeholder="Ex: Introduction" required>
+            </div>
+            <div class="groupe-saisie">
+                <label for="ordre-chapitre">Ordre</label>
+                <input type="number" id="ordre-chapitre" name="ordre" min="1" value="1">
+            </div>
+            <button type="submit">Creer le chapitre</button>
+        </form>
+    </div>
+
+    <!-- Selecteur de cours pour filtrer les chapitres -->
+    <div class="groupe-saisie" style="margin-top:20px;">
+        <label for="filtre-cours-chapitres">Voir les chapitres du cours :</label>
+        <select id="filtre-cours-chapitres">
+            <option value="">Selectionner un cours</option>
+        </select>
+    </div>
+
+    <section class="liste-enseignant">
+        <h2>Chapitres du cours</h2>
+        <div id="liste-chapitres-enseignant" class="grille-chapitres">
+            <p class="message-vide">Selectionnez un cours pour voir ses chapitres.</p>
+        </div>
+    </section>
+</div>

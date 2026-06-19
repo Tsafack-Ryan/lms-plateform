@@ -1,60 +1,109 @@
 <div class="conteneur-evaluation">
     <div class="header-formulaire">
-        <h1>Ajouter une evaluation</h1>
-        <p>Creez les questions qui permettront de valider une lecon.</p>
+        <h1>Gestion des evaluations</h1>
+        <div class="onglets-evaluation" style="display:flex;gap:10px;margin-top:16px;">
+            <button class="btn-onglet-eval actif" data-onglet="quiz" onclick="switcherOngletEvaluation('quiz')">Creer un
+                quiz</button>
+            <button class="btn-onglet-eval" data-onglet="examen" onclick="switcherOngletEvaluation('examen')">Creer
+                examen final</button>
+        </div>
     </div>
 
-    <form id="formulaire-evaluation" class="formulaire-evaluation">
-        <div class="groupe-saisie">
-            <label for="lecon-evaluation">Lecon associee</label>
-            <select id="lecon-evaluation" name="lecon_id" required>
-                <option value="">Selectionner une lecon</option>
-            </select>
-        </div>
-
-        <div class="groupe-saisie">
-            <label for="question-evaluation">Question</label>
-            <textarea id="question-evaluation" name="question" rows="3" placeholder="Saisissez la question..." required></textarea>
-        </div>
-
-        <div class="grille-options">
+    <!-- ONGLET QUIZ (par lecon) -->
+    <div id="zone-quiz-evaluation" class="zone-onglet-eval">
+        <form id="formulaire-evaluation" class="formulaire-evaluation">
             <div class="groupe-saisie">
-                <label for="option-a">Option A</label>
-                <input type="text" id="option-a" name="options[A]" required>
+                <label for="lecon-evaluation">Lecon associee</label>
+                <select id="lecon-evaluation" name="lecon_id" required>
+                    <option value="">Selectionner une lecon</option>
+                </select>
             </div>
-
             <div class="groupe-saisie">
-                <label for="option-b">Option B</label>
-                <input type="text" id="option-b" name="options[B]" required>
+                <label for="question-evaluation">Question</label>
+                <textarea id="question-evaluation" name="question" rows="3" placeholder="Saisissez la question..."
+                    required></textarea>
             </div>
-
+            <div class="grille-options">
+                <div class="groupe-saisie">
+                    <label for="option-a">Option A</label>
+                    <input type="text" id="option-a" name="options[A]" required>
+                </div>
+                <div class="groupe-saisie">
+                    <label for="option-b">Option B</label>
+                    <input type="text" id="option-b" name="options[B]" required>
+                </div>
+                <div class="groupe-saisie">
+                    <label for="option-c">Option C</label>
+                    <input type="text" id="option-c" name="options[C]">
+                </div>
+                <div class="groupe-saisie">
+                    <label for="option-d">Option D</label>
+                    <input type="text" id="option-d" name="options[D]">
+                </div>
+            </div>
             <div class="groupe-saisie">
-                <label for="option-c">Option C</label>
-                <input type="text" id="option-c" name="options[C]">
+                <label for="bonne-reponse">Bonne reponse</label>
+                <select id="bonne-reponse" name="bonne_reponse" required>
+                    <option value="">Selectionner</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                    <option value="C">Option C</option>
+                    <option value="D">Option D</option>
+                </select>
             </div>
+            <div class="actions-formulaire">
+                <button type="submit">Ajouter la question</button>
+            </div>
+        </form>
+    </div>
 
+    <!-- ONGLET EXAMEN FINAL (par cours) -->
+    <div id="zone-examen-evaluation" class="zone-onglet-eval masque">
+        <form id="formulaire-examen-final" class="formulaire-evaluation">
             <div class="groupe-saisie">
-                <label for="option-d">Option D</label>
-                <input type="text" id="option-d" name="options[D]">
+                <label for="cours-examen">Cours associe</label>
+                <select id="cours-examen" name="cours_id" required>
+                    <option value="">Selectionner un cours</option>
+                </select>
             </div>
-        </div>
-
-        <div class="groupe-saisie">
-            <label for="bonne-reponse">Bonne reponse</label>
-            <select id="bonne-reponse" name="bonne_reponse" required>
-                <option value="">Selectionner</option>
-                <option value="A">Option A</option>
-                <option value="B">Option B</option>
-                <option value="C">Option C</option>
-                <option value="D">Option D</option>
-            </select>
-        </div>
-
-        <div class="actions-formulaire">
-            <button type="submit">Ajouter la question</button>
-            <button type="button" class="btn-secondaire">Terminer</button>
-        </div>
-    </form>
+            <div class="groupe-saisie">
+                <label for="question-examen">Question</label>
+                <textarea id="question-examen" rows="3" placeholder="Saisissez la question de l'examen..."
+                    required></textarea>
+            </div>
+            <div class="grille-options">
+                <div class="groupe-saisie">
+                    <label for="opt-ex-a">Option A</label>
+                    <input type="text" id="opt-ex-a" required>
+                </div>
+                <div class="groupe-saisie">
+                    <label for="opt-ex-b">Option B</label>
+                    <input type="text" id="opt-ex-b" required>
+                </div>
+                <div class="groupe-saisie">
+                    <label for="opt-ex-c">Option C</label>
+                    <input type="text" id="opt-ex-c">
+                </div>
+                <div class="groupe-saisie">
+                    <label for="opt-ex-d">Option D</label>
+                    <input type="text" id="opt-ex-d">
+                </div>
+            </div>
+            <div class="groupe-saisie">
+                <label for="bonne-rep-examen">Bonne reponse</label>
+                <select id="bonne-rep-examen" required>
+                    <option value="">Selectionner</option>
+                    <option value="A">Option A</option>
+                    <option value="B">Option B</option>
+                    <option value="C">Option C</option>
+                    <option value="D">Option D</option>
+                </select>
+            </div>
+            <div class="actions-formulaire">
+                <button type="submit">Ajouter la question</button>
+            </div>
+        </form>
+    </div>
 
     <section class="liste-enseignant">
         <h2>Questions publiees</h2>
