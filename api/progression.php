@@ -176,7 +176,7 @@ if ($action === 'soumettre_evaluation') {
         INSERT INTO progressions (etudiant_id, lecon_id, note, statut)
         VALUES (?, ?, ?, "terminee")
         ON DUPLICATE KEY UPDATE
-            note = GREATEST(note, VALUES(note)),
+            note = GREATEST(progressions.note, VALUES(note)),
             statut = "terminee"
     ');
     $stmt->execute([$utilisateur['id'], $leconId, $note]);

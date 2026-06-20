@@ -143,7 +143,26 @@ CREATE TABLE certificats (
     FOREIGN KEY (cours_id) REFERENCES cours (id) ON DELETE CASCADE
 );
 
--- Données initiales des modules
+-- Index pour les performances des requetes frequentes
+CREATE INDEX idx_cours_enseignant ON cours (enseignant_id);
+
+CREATE INDEX idx_cours_module ON cours (module_id);
+
+CREATE INDEX idx_chapitres_cours ON chapitres (cours_id);
+
+CREATE INDEX idx_lecons_chapitre ON lecons (chapitre_id);
+
+CREATE INDEX idx_evaluations_lecon ON evaluations (lecon_id);
+
+CREATE INDEX idx_examens_cours ON examens_finaux (cours_id);
+
+CREATE INDEX idx_progressions_etudiant ON progressions (etudiant_id);
+
+CREATE INDEX idx_inscriptions_etudiant ON inscriptions (etudiant_id);
+
+CREATE INDEX idx_utilisateurs_email ON utilisateurs (email);
+
+-- Donnees initiales des modules
 INSERT IGNORE INTO
     modules (code, titre, description)
 VALUES (

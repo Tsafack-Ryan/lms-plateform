@@ -23,7 +23,7 @@ function chargerCertificats() {
                 '<h3>' + echapperHtml(c.cours_titre) + '</h3>' +
                 '<p>Certificat de reussite - ' + echapperHtml(c.code_certificat) + '</p>' +
                 '<p><small>Obtenu le ' + new Date(c.date_obtention).toLocaleDateString("fr-FR") + '</small></p>' +
-                '<button class="btn-action-majeure" onclick="afficherCertificat(\'' + echapperJs(c.cours_titre) + '\')">Voir le certificat</button>' +
+                '<button class="btn-action-majeure" onclick="afficherCertificat(\'' + echapperJs(c.cours_titre) + '\', \'' + echapperJs(c.date_obtention) + '\')">Voir le certificat</button>' +
                 '</article>';
         }
         conteneur.innerHTML = html;
@@ -36,13 +36,15 @@ function chargerCertificats() {
     if (imprimer) imprimer.onclick = function () { window.print(); };
 }
 
-function afficherCertificat(titreCours) {
+function afficherCertificat(titreCours, dateObtention) {
     var modal = document.getElementById("modal-certificat");
     var zone = document.getElementById("zone-rendu-certificat");
     if (!modal || !zone) return;
 
     var nom = (utilisateurActuel && utilisateurActuel.nom) || "Etudiant";
-    var date = new Date().toLocaleDateString("fr-FR");
+    var date = dateObtention
+        ? new Date(dateObtention).toLocaleDateString("fr-FR")
+        : new Date().toLocaleDateString("fr-FR");
 
     zone.innerHTML = '<div style="padding:48px 40px;text-align:center;font-family:\'Plus Jakarta Sans\',Arial,sans-serif;">' +
         '<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px;">' +

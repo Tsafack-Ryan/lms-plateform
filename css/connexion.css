@@ -103,3 +103,42 @@
     color: var(--couleur-primaire);
     font-weight: 800;
 }
+
+/* Conteneur du champ mot de passe avec bouton toggle */
+.mot-passe-conteneur {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.mot-passe-conteneur input {
+    flex: 1;
+    padding-right: 44px;
+}
+
+.btn-basculer-mot-passe {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--couleur-texte-secondaire);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+}
+
+.btn-basculer-mot-passe:hover {
+    color: var(--couleur-primaire);
+    background: #f1f5f9;
+}
+
+.btn-basculer-mot-passe:active {
+    background: #e2e8f0;
+}

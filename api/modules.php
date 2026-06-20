@@ -51,7 +51,12 @@ if ($methode === 'PUT') {
     $stmt = $pdo->prepare('UPDATE modules SET code = ?, titre = ?, description = ? WHERE id = ?');
     $stmt->execute([$code, $titre, $description, $id]);
     if ($stmt->rowCount() === 0) {
-        reponseJson(['succes' => false, 'message' => 'Module introuvable.'], 404);
+        // Verifier si le module existe (rowCount=0 peut signifier "rien de change")
+        $check = $pdo->prepare('SELECT id FROM modules WHERE id = ?');
+        $check->execute([$id]);
+        if (!$check->fetchColumn()) {
+            reponseJson(['succes' => false, 'message' => 'Module introuvable.'], 404);
+        }
     }
 
     reponseJson(['succes' => true, 'message' => 'Module mis a jour.']);

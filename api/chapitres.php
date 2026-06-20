@@ -9,18 +9,33 @@ $methode = methodeHttp();
 
 if ($methode === 'GET') {
     $coursId = (int) ($_GET['cours_id'] ?? 0);
+    $utilisateur = utilisateurConnecte();
+    $modeEnseignant = ($utilisateur && $utilisateur['role'] === 'enseignant');
 
     if ($coursId > 0) {
         // Chapitres d'un cours specifique
-        $stmt = $pdo->prepare('
-            SELECT chap.*, COUNT(l.id) AS nb_lecons
-            FROM chapitres chap
-            LEFT JOIN lecons l ON l.chapitre_id = chap.id
-            WHERE chap.cours_id = ?
-            GROUP BY chap.id
-            ORDER BY chap.ordre ASC
-        ');
-        $stmt->execute([$coursId]);
+        if ($modeEnseignant) {
+            $stmt = $pdo->prepare('
+                SELECT chap.*, COUNT(l.id) AS nb_lecons
+                FROM chapitres chap
+                INNER JOIN cours c ON c.id = chap.cours_id
+                LEFT JOIN lecons l ON l.chapitre_id = chap.id
+                WHERE chap.cours_id = ? AND c.enseignant_id = ?
+                GROUP BY chap.id
+                ORDER BY chap.ordre ASC
+            ');
+            $stmt->execute([$coursId, $utilisateur['id']]);
+        } else {
+            $stmt = $pdo->prepare('
+                SELECT chap.*, COUNT(l.id) AS nb_lecons
+                FROM chapitres chap
+                LEFT JOIN lecons l ON l.chapitre_id = chap.id
+                WHERE chap.cours_id = ?
+                GROUP BY chap.id
+                ORDER BY chap.ordre ASC
+            ');
+            $stmt->execute([$coursId]);
+        }
         $chapitres = $stmt->fetchAll();
 
         // Pour chaque chapitre, recuperer les lecons
@@ -34,7 +49,18 @@ if ($methode === 'GET') {
         reponseJson(['succes' => true, 'chapitres' => $chapitres]);
     }
 
-    $stmt = $pdo->query('SELECT * FROM chapitres ORDER BY cours_id ASC, ordre ASC');
+    if ($modeEnseignant) {
+        $stmt = $pdo->prepare('
+            SELECT chap.*
+            FROM chapitres chap
+            INNER JOIN cours c ON c.id = chap.cours_id
+            WHERE c.enseignant_id = ?
+            ORDER BY chap.cours_id ASC, chap.ordre ASC
+        ');
+        $stmt->execute([$utilisateur['id']]);
+    } else {
+        $stmt = $pdo->query('SELECT * FROM chapitres ORDER BY cours_id ASC, ordre ASC');
+    }
     reponseJson(['succes' => true, 'chapitres' => $stmt->fetchAll()]);
 }
 
@@ -68,15 +94,21 @@ if ($methode === 'PUT') {
     if ($id <= 0 || $titre === '')
         reponseJson(['succes' => false, 'message' => 'Titre obligatoire.'], 422);
 
-    $stmt = $pdo->prepare('
-        UPDATE chapitres chap
+    // Verifier autorisation d'abord pour distinguer "introuvable/non autorise" de "sans changement"
+    $check = $pdo->prepare('
+        SELECT chap.id FROM chapitres chap
         INNER JOIN cours c ON c.id = chap.cours_id
-        SET chap.titre = ?, chap.ordre = ?
         WHERE chap.id = ? AND c.enseignant_id = ?
     ');
-    $stmt->execute([$titre, $ordre, $id, $enseignant['id']]);
-    if ($stmt->rowCount() === 0)
+    $check->execute([$id, $enseignant['id']]);
+    if (!$check->fetchColumn()) {
         reponseJson(['succes' => false, 'message' => 'Chapitre introuvable ou non autorise.'], 403);
+    }
+
+    $stmt = $pdo->prepare('
+        UPDATE chapitres SET titre = ?, ordre = ? WHERE id = ?
+    ');
+    $stmt->execute([$titre, $ordre, $id]);
 
     reponseJson(['succes' => true, 'message' => 'Chapitre mis a jour.']);
 }

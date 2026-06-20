@@ -179,7 +179,4 @@ document.addEventListener("DOMContentLoaded", function () {
             naviguer(p);
         };
     });
-
-    var h = window.location.hash;
-    if (h) naviguer(h); else afficherConnexion();
 });

@@ -57,7 +57,14 @@ if ($methode === 'PUT') {
     if (!$moduleId) reponseJson(['succes' => false, 'message' => 'Module introuvable.'], 422);
     $stmt = $pdo->prepare('UPDATE cours SET titre = ?, description = ?, module_id = ? WHERE id = ? AND enseignant_id = ?');
     $stmt->execute([$titre, $description, (int)$moduleId, $id, $enseignant['id']]);
-    if ($stmt->rowCount() === 0) reponseJson(['succes' => false, 'message' => 'Cours introuvable ou non autorise.'], 403);
+    if ($stmt->rowCount() === 0) {
+        // Verifier si le cours existe et appartient a cet enseignant
+        $check = $pdo->prepare('SELECT id FROM cours WHERE id = ? AND enseignant_id = ?');
+        $check->execute([$id, $enseignant['id']]);
+        if (!$check->fetchColumn()) {
+            reponseJson(['succes' => false, 'message' => 'Cours introuvable ou non autorise.'], 403);
+        }
+    }
     reponseJson(['succes' => true, 'message' => 'Cours mis a jour.']);
 }
 

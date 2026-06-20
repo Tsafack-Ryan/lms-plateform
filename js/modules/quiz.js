@@ -79,10 +79,10 @@ function validerReponseSelectionnee() {
     arreterMinuteur();
     var currentQuestion = quizQuestions[quizIndex];
     var codeOption = selected.value;
-    var estCorrecte = selected.dataset.correct === "1";
 
+    // Le score est recalcule par le serveur pour eviter la triche
+    // On fait une verification cote client pour l'affichage immediat
     quizReponses[currentQuestion.id] = codeOption;
-    if (estCorrecte) quizScore++;
     quizIndex++;
     afficherQuestion();
 }
@@ -110,12 +110,13 @@ function afficherQuestion() {
     }
 
     // Afficher les options sous forme de boutons radio + label
+    // NE PAS exposer data-correct pour eviter la triche (le serveur recalcule le score)
     if (options) {
         var optHtml = "";
         for (var i = 0; i < q.options.length; i++) {
             var o = q.options[i];
             optHtml += '<label class="option-quiz-label" style="display:block;padding:12px 14px;margin-bottom:8px;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;">' +
-                '<input type="radio" name="quiz-option" value="' + o.code_option + '" data-correct="' + o.est_correcte + '" style="margin-right:10px;">' +
+                '<input type="radio" name="quiz-option" value="' + o.code_option + '" style="margin-right:10px;">' +
                 echapperHtml(o.libelle) +
                 '</label>';
         }
@@ -133,41 +134,46 @@ function terminerQuiz() {
     var resDiv = document.getElementById("quiz-resultats");
     if (resDiv) resDiv.classList.remove("masque");
 
-    var note = (quizScore / quizQuestions.length) * 100;
     var texteScore = document.getElementById("texte-score");
-    if (texteScore) texteScore.textContent = "Score: " + quizScore + "/" + quizQuestions.length + " (" + Math.round(note) + "%)";
-
     var feedback = document.getElementById("feedback-resultat");
     var icone = document.getElementById("icone-resultat");
-    var btnCertificat = document.getElementById("btn-voir-certificat");
-    var reussi = note >= 80;
+    var btnCert = document.getElementById("btn-voir-certificat");
+    if (btnCert) btnCert.disabled = true;
 
-    if (feedback) feedback.textContent = reussi
-        ? "Felicitations, vous avez valide ce module !"
-        : "Score insuffisant. Vous devez obtenir au moins 80% pour valider ce module.";
-    if (icone) icone.textContent = reussi ? "OK" : "X";
-    if (btnCertificat) btnCertificat.classList.toggle("masque", !reussi);
+    // Afficher "Calcul en cours..." pendant l'appel serveur
+    if (texteScore) texteScore.textContent = "Calcul du score...";
+    if (feedback) feedback.textContent = "Correction en cours...";
 
-    // Envoyer les résultats au serveur
+    // Envoyer les résultats au serveur (c'est lui qui calcule le score)
     var d = new FormData();
     d.append("action", "soumettre_evaluation");
     d.append("lecon_id", quizLeconId);
     d.append("reponses", JSON.stringify(quizReponses));
 
-    var btnCert = document.getElementById("btn-voir-certificat");
-    if (btnCert) btnCert.disabled = true;
-
     requeteJson("api/progression.php", { method: "POST", body: d }).then(function (res) {
         if (res.succes) {
-            afficherMessage("Resultats enregistres !", "succes");
-            if (btnCert && reussi) {
-                btnCert.disabled = false;
-                btnCert.onclick = function () {
-                    window.location.hash = "certificats";
-                    naviguer("certificats");
-                };
+            var noteServeur = res.note || 0;
+            var nbBonnes = Math.round((noteServeur / 100) * quizQuestions.length);
+            var reussi = noteServeur >= 80;
+
+            if (texteScore) texteScore.textContent = "Score: " + nbBonnes + "/" + quizQuestions.length + " (" + Math.round(noteServeur) + "%)";
+            if (feedback) feedback.textContent = reussi
+                ? "Felicitations, vous avez valide ce module !"
+                : "Score insuffisant. Vous devez obtenir au moins 80% pour valider ce module.";
+            if (icone) icone.textContent = reussi ? "OK" : "X";
+            if (btnCert) {
+                btnCert.disabled = !reussi;
+                btnCert.classList.toggle("masque", !reussi);
+                if (reussi) {
+                    btnCert.onclick = function () {
+                        window.location.hash = "certificats";
+                        naviguer("certificats");
+                    };
+                }
             }
+            afficherMessage("Resultats enregistres !", "succes");
         } else {
+            if (feedback) feedback.textContent = "Erreur d'enregistrement : " + (res.message || "");
             afficherMessage("Erreur d'enregistrement : " + (res.message || ""), "erreur");
         }
     });
@@ -178,7 +184,7 @@ function terminerQuiz() {
     var btnRecommencer = document.getElementById("btn-recommencer-quiz");
     if (btnRecommencer) btnRecommencer.onclick = function () {
         resDiv.classList.add("masque");
-        if (btnCertificat) btnCertificat.classList.add("masque");
+        if (btnCert) btnCert.classList.add("masque");
         document.getElementById("quiz-jeu").classList.remove("masque");
         demarrerQuiz();
     };

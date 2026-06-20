@@ -16,7 +16,8 @@ if ($utilisateur['role'] === 'enseignant') {
     $stmtLecons = $pdo->prepare(
         'SELECT COUNT(*)
          FROM lecons l
-         INNER JOIN cours c ON c.id = l.cours_id
+         INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+         INNER JOIN cours c ON c.id = chap.cours_id
          WHERE c.enseignant_id = ?'
     );
     $stmtLecons->execute([$id]);
@@ -25,7 +26,8 @@ if ($utilisateur['role'] === 'enseignant') {
         'SELECT COUNT(*)
          FROM evaluations e
          INNER JOIN lecons l ON l.id = e.lecon_id
-         INNER JOIN cours c ON c.id = l.cours_id
+         INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+         INNER JOIN cours c ON c.id = chap.cours_id
          WHERE c.enseignant_id = ?'
     );
     $stmtEvaluations->execute([$id]);
@@ -54,7 +56,8 @@ $stmtCours = $pdo->prepare(
      INNER JOIN cours c ON c.id = i.cours_id
      INNER JOIN modules m ON m.id = c.module_id
      INNER JOIN utilisateurs u ON u.id = c.enseignant_id
-     LEFT JOIN lecons l ON l.cours_id = c.id
+     LEFT JOIN chapitres chap ON chap.cours_id = c.id
+     LEFT JOIN lecons l ON l.chapitre_id = chap.id
      LEFT JOIN progressions p ON p.lecon_id = l.id AND p.etudiant_id = i.etudiant_id
      WHERE i.etudiant_id = ?
      GROUP BY c.id, c.titre, c.description, m.code, m.titre, u.nom, i.created_at

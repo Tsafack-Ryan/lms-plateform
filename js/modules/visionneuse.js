@@ -143,7 +143,7 @@ function voirLecon(id) {
             if (l.chemin_fichier) {
                 zone.innerHTML = l.type_contenu === "pdf"
                     ? '<embed src="' + l.chemin_fichier + '" type="application/pdf" style="width:100%;height:500px;">'
-                    : '<video controls style="width:100%;max-height:500px;"><source src="' + l.chemin_fichier + '" type="video/mp4"></video>';
+                    : '<video controls playsinline style="width:100%;max-height:500px;"><source src="' + l.chemin_fichier + '"></video>';
             } else {
                 zone.innerHTML = '<p class="message-vide">Aucun fichier associe a cette lecon.</p>';
             }

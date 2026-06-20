@@ -8,22 +8,22 @@ $pdo = obtenirConnexion();
 
 $utilisateurs = [
     [
-        'nom' => 'enseignant',
-        'email' => 'enseignant@lms.local',
-        'mot_de_passe' => 'enseignant123',
+        'nom' => 'Ryan Tsafack',
+        'email' => 'ryan@staracademy.com',
+        'mot_de_passe' => 'admin123',
+        'role' => 'promoteur',
+    ],
+    [
+        'nom' => 'Professeur Alpha',
+        'email' => 'alpha@staracademy.com',
+        'mot_de_passe' => 'pass123',
         'role' => 'enseignant',
     ],
     [
-        'nom' => 'etudiant',
-        'email' => 'etudiant@lms.local',
-        'mot_de_passe' => 'etudiant123',
+        'nom' => 'Etudiant Test',
+        'email' => 'etudiant@staracademy.com',
+        'mot_de_passe' => 'pass123',
         'role' => 'etudiant',
-    ],
-    [
-        'nom' => 'promoteur',
-        'email' => 'promoteur@lms.local',
-        'mot_de_passe' => 'promoteur123',
-        'role' => 'promoteur',
     ],
 ];
 
@@ -46,5 +46,6 @@ foreach ($utilisateurs as $utilisateur) {
 }
 
 echo "Utilisateurs de test crees:\n";
-echo "- enseignant / enseignant123\n";
-echo "- etudiant / etudiant123\n";
+echo "- Promoteur : ryan@staracademy.com / admin123\n";
+echo "- Enseignant : alpha@staracademy.com / pass123\n";
+echo "- Etudiant : etudiant@staracademy.com / pass123\n";

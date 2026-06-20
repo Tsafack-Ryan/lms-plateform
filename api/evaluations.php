@@ -9,48 +9,109 @@ $methode = methodeHttp();
 
 if ($methode === 'GET') {
     $leconId = (int) ($_GET['lecon_id'] ?? 0);
+    $modeEnseignant = false;
 
     if ($leconId > 0) {
+        // Mode étudiant : quiz d'une leçon spécifique — ne pas exposer est_correcte
         $requete = $pdo->prepare('
-            SELECT e.*, l.titre AS lecon_titre, c.titre AS cours_titre
+            SELECT e.id, e.lecon_id, e.question, l.titre AS lecon_titre, c.titre AS cours_titre
             FROM evaluations e
             INNER JOIN lecons l ON l.id = e.lecon_id
-            INNER JOIN cours c ON c.id = l.cours_id
+            INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+            INNER JOIN cours c ON c.id = chap.cours_id
             WHERE e.lecon_id = ?
             ORDER BY e.id ASC
         ');
         $requete->execute([$leconId]);
     } else {
         $utilisateur = utilisateurConnecte();
+        $coursId = (int) ($_GET['cours_id'] ?? 0);
         if ($utilisateur && $utilisateur['role'] === 'enseignant') {
-            $requete = $pdo->prepare(
-                'SELECT e.*, l.titre AS lecon_titre, c.titre AS cours_titre
-                 FROM evaluations e
-                 INNER JOIN lecons l ON l.id = e.lecon_id
-                 INNER JOIN cours c ON c.id = l.cours_id
-                 WHERE c.enseignant_id = ?
-                 ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
-            );
-            $requete->execute([$utilisateur['id']]);
+            $modeEnseignant = true;
+            if ($coursId > 0) {
+                $requete = $pdo->prepare(
+                    'SELECT e.*, l.titre AS lecon_titre, c.titre AS cours_titre
+                     FROM evaluations e
+                     INNER JOIN lecons l ON l.id = e.lecon_id
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.enseignant_id = ? AND c.id = ?
+                     ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
+                );
+                $requete->execute([$utilisateur['id'], $coursId]);
+            } else {
+                $requete = $pdo->prepare(
+                    'SELECT e.*, l.titre AS lecon_titre, c.titre AS cours_titre
+                     FROM evaluations e
+                     INNER JOIN lecons l ON l.id = e.lecon_id
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.enseignant_id = ?
+                     ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
+                );
+                $requete->execute([$utilisateur['id']]);
+            }
         } else {
-            $requete = $pdo->query(
-                'SELECT e.*, l.titre AS lecon_titre, c.titre AS cours_titre
-                 FROM evaluations e
-                 INNER JOIN lecons l ON l.id = e.lecon_id
-                 INNER JOIN cours c ON c.id = l.cours_id
-                 ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
-            );
+            if ($coursId > 0) {
+                $requete = $pdo->prepare(
+                    'SELECT e.id, e.lecon_id, e.question, l.titre AS lecon_titre, c.titre AS cours_titre
+                     FROM evaluations e
+                     INNER JOIN lecons l ON l.id = e.lecon_id
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.id = ?
+                     ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
+                );
+                $requete->execute([$coursId]);
+            } else {
+                $requete = $pdo->query(
+                    'SELECT e.id, e.lecon_id, e.question, l.titre AS lecon_titre, c.titre AS cours_titre
+                     FROM evaluations e
+                     INNER JOIN lecons l ON l.id = e.lecon_id
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     ORDER BY c.titre ASC, l.ordre ASC, e.id ASC'
+                );
+            }
         }
     }
     $evaluations = $requete->fetchAll();
 
-    // Mélanger les questions pour éviter l'ordre prévisible
-    shuffle($evaluations);
+    // Optimisation N+1 : charger toutes les options en une seule requête
+    if (!empty($evaluations)) {
+        $evalIds = array_column($evaluations, 'id');
+        $placeholders = implode(',', array_fill(0, count($evalIds), '?'));
 
-    foreach ($evaluations as &$evaluation) {
-        $options = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_evaluation WHERE evaluation_id = ? ORDER BY code_option ASC');
-        $options->execute([$evaluation['id']]);
-        $evaluation['options'] = $options->fetchAll();
+        if ($modeEnseignant) {
+            $stmtOptions = $pdo->prepare(
+                "SELECT evaluation_id, id, code_option, libelle, est_correcte 
+                 FROM options_evaluation WHERE evaluation_id IN ($placeholders)
+                 ORDER BY evaluation_id ASC, code_option ASC"
+            );
+        } else {
+            $stmtOptions = $pdo->prepare(
+                "SELECT evaluation_id, id, code_option, libelle 
+                 FROM options_evaluation WHERE evaluation_id IN ($placeholders)
+                 ORDER BY evaluation_id ASC, code_option ASC"
+            );
+        }
+        $stmtOptions->execute($evalIds);
+        $allOptions = $stmtOptions->fetchAll();
+
+        // Grouper les options par evaluation_id
+        $optionsGrouped = [];
+        foreach ($allOptions as $opt) {
+            $optionsGrouped[$opt['evaluation_id']][] = $opt;
+        }
+        foreach ($evaluations as &$evaluation) {
+            $evaluation['options'] = $optionsGrouped[$evaluation['id']] ?? [];
+        }
+        unset($evaluation);
+    }
+
+    // Mélanger les questions pour éviter l'ordre prévisible (seulement pour les étudiants)
+    if (!$modeEnseignant) {
+        shuffle($evaluations);
     }
 
     reponseJson(['succes' => true, 'evaluations' => $evaluations]);
@@ -68,7 +129,8 @@ if ($methode === 'DELETE') {
     $stmt = $pdo->prepare(
         'DELETE e FROM evaluations e
          INNER JOIN lecons l ON l.id = e.lecon_id
-         INNER JOIN cours c ON c.id = l.cours_id
+         INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+         INNER JOIN cours c ON c.id = chap.cours_id
          WHERE e.id = ? AND c.enseignant_id = ?'
     );
     $stmt->execute([$id, $enseignant['id']]);
@@ -108,7 +170,8 @@ if ($methode === 'PUT') {
         'SELECT e.id
          FROM evaluations e
          INNER JOIN lecons l ON l.id = e.lecon_id
-         INNER JOIN cours c ON c.id = l.cours_id
+         INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+         INNER JOIN cours c ON c.id = chap.cours_id
          WHERE e.id = ? AND c.enseignant_id = ?'
     );
     $verification->execute([$id, $enseignant['id']]);
@@ -119,7 +182,8 @@ if ($methode === 'PUT') {
     $verificationLecon = $pdo->prepare(
         'SELECT l.id
          FROM lecons l
-         INNER JOIN cours c ON c.id = l.cours_id
+         INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+         INNER JOIN cours c ON c.id = chap.cours_id
          WHERE l.id = ? AND c.enseignant_id = ?'
     );
     $verificationLecon->execute([$leconId, $enseignant['id']]);
@@ -190,7 +254,8 @@ if (count($optionsNettoyees) < 2 || !isset($optionsNettoyees[strtoupper((string)
 $verification = $pdo->prepare(
     'SELECT l.id
      FROM lecons l
-     INNER JOIN cours c ON c.id = l.cours_id
+     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+     INNER JOIN cours c ON c.id = chap.cours_id
      WHERE l.id = ? AND c.enseignant_id = ?'
 );
 $verification->execute([$leconId, $enseignant['id']]);

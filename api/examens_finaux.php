@@ -11,6 +11,9 @@ if ($methode === 'GET') {
     $coursId = (int) ($_GET['cours_id'] ?? 0);
     $examenId = (int) ($_GET['id'] ?? 0);
 
+    $utilisateur = utilisateurConnecte();
+    $modeEnseignant = ($utilisateur && $utilisateur['role'] === 'enseignant');
+
     if ($examenId > 0) {
         $stmt = $pdo->prepare('SELECT * FROM examens_finaux WHERE id = ?');
         $stmt->execute([$examenId]);
@@ -18,7 +21,11 @@ if ($methode === 'GET') {
         if (!$examen)
             reponseJson(['succes' => false, 'message' => 'Question introuvable.'], 404);
 
-        $stmtOptions = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_examen_final WHERE examen_id = ? ORDER BY code_option ASC');
+        if ($modeEnseignant) {
+            $stmtOptions = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_examen_final WHERE examen_id = ? ORDER BY code_option ASC');
+        } else {
+            $stmtOptions = $pdo->prepare('SELECT id, code_option, libelle FROM options_examen_final WHERE examen_id = ? ORDER BY code_option ASC');
+        }
         $stmtOptions->execute([$examenId]);
         $examen['options'] = $stmtOptions->fetchAll();
 
@@ -27,29 +34,82 @@ if ($methode === 'GET') {
 
     if ($coursId > 0) {
         // Recuperer toutes les questions de l'examen final d'un cours
-        $stmt = $pdo->prepare('SELECT * FROM examens_finaux WHERE cours_id = ? ORDER BY id ASC');
-        $stmt->execute([$coursId]);
+        if ($modeEnseignant) {
+            $stmt = $pdo->prepare('SELECT ef.*, c.titre AS cours_titre FROM examens_finaux ef INNER JOIN cours c ON c.id = ef.cours_id WHERE ef.cours_id = ? AND c.enseignant_id = ? ORDER BY ef.id ASC');
+            $stmt->execute([$coursId, $utilisateur['id']]);
+        } else {
+            $stmt = $pdo->prepare('SELECT * FROM examens_finaux WHERE cours_id = ? ORDER BY id ASC');
+            $stmt->execute([$coursId]);
+        }
         $questions = $stmt->fetchAll();
 
-        foreach ($questions as &$q) {
-            $stmtOptions = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_examen_final WHERE examen_id = ? ORDER BY code_option ASC');
-            $stmtOptions->execute([$q['id']]);
-            $q['options'] = $stmtOptions->fetchAll();
+        if (!empty($questions)) {
+            $qIds = array_column($questions, 'id');
+            $placeholders = implode(',', array_fill(0, count($qIds), '?'));
+            if ($modeEnseignant) {
+                $stmtOptions = $pdo->prepare(
+                    "SELECT examen_id, id, code_option, libelle, est_correcte 
+                     FROM options_examen_final WHERE examen_id IN ($placeholders)
+                     ORDER BY examen_id ASC, code_option ASC"
+                );
+            } else {
+                $stmtOptions = $pdo->prepare(
+                    "SELECT examen_id, id, code_option, libelle 
+                     FROM options_examen_final WHERE examen_id IN ($placeholders)
+                     ORDER BY examen_id ASC, code_option ASC"
+                );
+            }
+            $stmtOptions->execute($qIds);
+            $allOptions = $stmtOptions->fetchAll();
+            $optionsGrouped = [];
+            foreach ($allOptions as $opt) {
+                $optionsGrouped[$opt['examen_id']][] = $opt;
+            }
+            foreach ($questions as &$q) {
+                $q['options'] = $optionsGrouped[$q['id']] ?? [];
+            }
+            unset($q);
         }
-        unset($q);
 
         reponseJson(['succes' => true, 'questions' => $questions]);
     }
 
-    // Sans parametre cours_id, retourner toutes les questions d'examen (pour la page enseignant)
-    $stmt = $pdo->query('SELECT ef.*, c.titre AS cours_titre FROM examens_finaux ef INNER JOIN cours c ON c.id = ef.cours_id ORDER BY c.titre ASC');
-    $questions = $stmt->fetchAll();
-    foreach ($questions as &$q) {
-        $stmtOptions = $pdo->prepare('SELECT id, code_option, libelle, est_correcte FROM options_examen_final WHERE examen_id = ? ORDER BY code_option ASC');
-        $stmtOptions->execute([$q['id']]);
-        $q['options'] = $stmtOptions->fetchAll();
+
+    // Sans parametre cours_id, retourner toutes les questions d'examen (pour la page enseignant/promoteur)
+    if ($modeEnseignant) {
+        $stmt = $pdo->prepare('SELECT ef.*, c.titre AS cours_titre FROM examens_finaux ef INNER JOIN cours c ON c.id = ef.cours_id WHERE c.enseignant_id = ? ORDER BY c.titre ASC, ef.id ASC');
+        $stmt->execute([$utilisateur['id']]);
+    } else {
+        $stmt = $pdo->query('SELECT ef.*, c.titre AS cours_titre FROM examens_finaux ef INNER JOIN cours c ON c.id = ef.cours_id ORDER BY c.titre ASC');
     }
-    unset($q);
+    $questions = $stmt->fetchAll();
+    if (!empty($questions)) {
+        $qIds = array_column($questions, 'id');
+        $placeholders = implode(',', array_fill(0, count($qIds), '?'));
+        if ($modeEnseignant) {
+            $stmtOptions = $pdo->prepare(
+                "SELECT examen_id, id, code_option, libelle, est_correcte 
+                 FROM options_examen_final WHERE examen_id IN ($placeholders)
+                 ORDER BY examen_id ASC, code_option ASC"
+            );
+        } else {
+            $stmtOptions = $pdo->prepare(
+                "SELECT examen_id, id, code_option, libelle 
+                 FROM options_examen_final WHERE examen_id IN ($placeholders)
+                 ORDER BY examen_id ASC, code_option ASC"
+            );
+        }
+        $stmtOptions->execute($qIds);
+        $allOptions = $stmtOptions->fetchAll();
+        $optionsGrouped = [];
+        foreach ($allOptions as $opt) {
+            $optionsGrouped[$opt['examen_id']][] = $opt;
+        }
+        foreach ($questions as &$q) {
+            $q['options'] = $optionsGrouped[$q['id']] ?? [];
+        }
+        unset($q);
+    }
     reponseJson(['succes' => true, 'questions' => $questions]);
 }
 

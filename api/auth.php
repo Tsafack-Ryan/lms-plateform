@@ -57,12 +57,20 @@ if ($action === 'register') {
 }
 
 if ($action === 'login') {
-    $nom = trim($donnees['nom'] ?? '');
+    $email = trim($donnees['email'] ?? '');
     $motDePasse = $donnees['mot_de_passe'] ?? '';
     $role = $donnees['role'] ?? 'etudiant';
 
-    $requete = $pdo->prepare('SELECT * FROM utilisateurs WHERE nom = ? AND role = ? LIMIT 1');
-    $requete->execute([$nom, $role]);
+    if ($email === '' || $motDePasse === '') {
+        reponseJson(['succes' => false, 'message' => 'Email et mot de passe obligatoires.'], 422);
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        reponseJson(['succes' => false, 'message' => 'Adresse email invalide.'], 422);
+    }
+
+    $requete = $pdo->prepare('SELECT * FROM utilisateurs WHERE email = ? AND role = ? LIMIT 1');
+    $requete->execute([$email, $role]);
     $utilisateur = $requete->fetch();
 
     if (!$utilisateur) {

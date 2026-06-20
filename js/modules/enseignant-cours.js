@@ -47,8 +47,8 @@ function chargerCoursListe() {
                 '</div>' +
                 '<div class="actions-cours-enseignant">' +
                 '<button class="btn-modifier-cours" onclick="ouvrirModificationCours(' + c.id + ', \'' + echapperJs(c.titre) + '\', \'' + echapperJs(c.module_code) + '\', \'' + echapperJs(c.description) + '\')">Modifier</button>' +
-                '<button class="btn-secondaire" onclick="naviguer(\'enseignant-lecon\')">Lecons</button>' +
-                '<button class="btn-secondaire" onclick="naviguer(\'enseignant-evaluation\')">Quiz</button>' +
+                '<button class="btn-secondaire" onclick="window.location.hash=\'enseignant-lecon?cours_id=' + c.id + '\';naviguer(\'enseignant-lecon?cours_id=' + c.id + '\')">Lecons</button>' +
+                '<button class="btn-secondaire" onclick="window.location.hash=\'enseignant-evaluation?cours_id=' + c.id + '\';naviguer(\'enseignant-evaluation?cours_id=' + c.id + '\')">Quiz</button>' +
                 '<button class="btn-supprimer-cours" onclick="supprimerCours(' + c.id + ')">Supprimer</button>' +
                 '</div>' +
                 '</div>';

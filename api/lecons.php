@@ -38,24 +38,49 @@ if ($methode === 'GET') {
         $requete->execute([$chapitreId]);
     } else {
         $utilisateur = utilisateurConnecte();
+        $coursId = (int) ($_GET['cours_id'] ?? 0);
         if ($utilisateur && $utilisateur['role'] === 'enseignant') {
-            $requete = $pdo->prepare(
-                'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
-                 FROM lecons l
-                 INNER JOIN chapitres chap ON chap.id = l.chapitre_id
-                 INNER JOIN cours c ON c.id = chap.cours_id
-                 WHERE c.enseignant_id = ?
-                 ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
-            );
-            $requete->execute([$utilisateur['id']]);
+            if ($coursId > 0) {
+                $requete = $pdo->prepare(
+                    'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
+                     FROM lecons l
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.enseignant_id = ? AND c.id = ?
+                     ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
+                );
+                $requete->execute([$utilisateur['id'], $coursId]);
+            } else {
+                $requete = $pdo->prepare(
+                    'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
+                     FROM lecons l
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.enseignant_id = ?
+                     ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
+                );
+                $requete->execute([$utilisateur['id']]);
+            }
         } else {
-            $requete = $pdo->query(
-                'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
-                 FROM lecons l
-                 INNER JOIN chapitres chap ON chap.id = l.chapitre_id
-                 INNER JOIN cours c ON c.id = chap.cours_id
-                 ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
-            );
+            if ($coursId > 0) {
+                $requete = $pdo->prepare(
+                    'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
+                     FROM lecons l
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     WHERE c.id = ?
+                     ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
+                );
+                $requete->execute([$coursId]);
+            } else {
+                $requete = $pdo->query(
+                    'SELECT l.*, chap.titre AS chapitre_titre, chap.cours_id, c.titre AS cours_titre
+                     FROM lecons l
+                     INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+                     INNER JOIN cours c ON c.id = chap.cours_id
+                     ORDER BY c.titre ASC, chap.ordre ASC, l.ordre ASC'
+                );
+            }
         }
     }
 

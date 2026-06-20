@@ -14,11 +14,15 @@ function switcherOngletEvaluation(onglet) {
 }
 
 function initFormEvaluation() {
+    var hash = window.location.hash;
+    var params = new URLSearchParams(hash.split("?")[1]);
+    var coursId = params.get("cours_id");
+
     // Formulaire quiz
     var f = document.getElementById("formulaire-evaluation");
     var s = document.getElementById("lecon-evaluation");
     if (f && s) {
-        requeteJson("api/lecons.php").then(function (res) {
+        requeteJson("api/lecons.php" + (coursId ? "?cours_id=" + coursId : "")).then(function (res) {
             if (res.succes) {
                 var opt = "<option value=''>Choisir...</option>";
                 for (var i = 0; i < res.lecons.length; i++) {
@@ -31,7 +35,11 @@ function initFormEvaluation() {
             e.preventDefault();
             requeteJson("api/evaluations.php", { method: "POST", body: new FormData(f) }).then(function (res) {
                 afficherMessage(res.message, res.succes ? "succes" : "erreur");
-                if (res.succes) { f.reset(); chargerEvaluationsEnseignant(); chargerStatsEnseignant(); }
+                if (res.succes) {
+                    f.reset();
+                    chargerEvaluationsEnseignant();
+                    chargerStatsEnseignant();
+                }
             });
         };
     }
@@ -44,7 +52,8 @@ function initFormEvaluation() {
             if (res.succes) {
                 var opt = "<option value=''>Choisir...</option>";
                 for (var i = 0; i < res.cours.length; i++) {
-                    opt += '<option value="' + res.cours[i].id + '">' + echapperHtml(res.cours[i].titre) + '</option>';
+                    var sel = (coursId && Number(res.cours[i].id) === Number(coursId)) ? " selected" : "";
+                    opt += '<option value="' + res.cours[i].id + '"' + sel + '>' + echapperHtml(res.cours[i].titre) + '</option>';
                 }
                 se.innerHTML = opt;
             }
@@ -69,7 +78,14 @@ function initFormEvaluation() {
                 body: JSON.stringify(donnees)
             }).then(function (res) {
                 afficherMessage(res.message, res.succes ? "succes" : "erreur");
-                if (res.succes) { fe.reset(); chargerEvaluationsEnseignant(); chargerStatsEnseignant(); }
+                if (res.succes) {
+                    fe.reset();
+                    if (coursId) {
+                        se.value = coursId;
+                    }
+                    chargerEvaluationsEnseignant();
+                    chargerStatsEnseignant();
+                }
             });
         };
     }
@@ -79,9 +95,13 @@ function chargerEvaluationsEnseignant() {
     var l = document.getElementById("liste-evaluations-enseignant");
     if (!l) return;
 
+    var hash = window.location.hash;
+    var params = new URLSearchParams(hash.split("?")[1]);
+    var coursId = params.get("cours_id");
+
     Promise.all([
-        requeteJson("api/evaluations.php"),
-        requeteJson("api/examens_finaux.php")
+        requeteJson("api/evaluations.php" + (coursId ? "?cours_id=" + coursId : "")),
+        requeteJson("api/examens_finaux.php" + (coursId ? "?cours_id=" + coursId : ""))
     ]).then(function (results) {
         var resEvals = results[0];
         var resExamen = results[1];
