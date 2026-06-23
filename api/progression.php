@@ -283,10 +283,11 @@ if ($action === 'soumettre_evaluation_chapitre') {
     }
 
     // Récupérer les bonnes réponses
+    $placeholdersEvals = implode(',', array_fill(0, count($toutesEvals), '?'));
     $stmtBonnes = $pdo->prepare("
         SELECT e.id, o.code_option FROM evaluations e
         INNER JOIN options_evaluation o ON o.evaluation_id = e.id
-        WHERE e.id IN ($placeholders) AND o.est_correcte = 1
+        WHERE e.id IN ($placeholdersEvals) AND o.est_correcte = 1
     ");
     $stmtBonnes->execute($toutesEvals);
     $bonnesReponses = $stmtBonnes->fetchAll(PDO::FETCH_KEY_PAIR);

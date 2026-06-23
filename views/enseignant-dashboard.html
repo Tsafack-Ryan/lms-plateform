@@ -36,8 +36,8 @@
             <p id="resume-enseignant">Les derniers cours et evaluations crees apparaitront ici.</p>
         </div>
         <div class="actions-enseignant">
-            <button class="btn btn-primary" onclick="naviguer('enseignant-cours')">Ajouter un cours</button>
-            <button class="btn btn-secondary" onclick="naviguer('enseignant-evaluation')">Ajouter une
+            <button class="btn btn-primary" onclick="window.location.hash='enseignant-cours';naviguer('enseignant-cours')">Ajouter un cours</button>
+            <button class="btn btn-secondary" onclick="window.location.hash='enseignant-evaluation';naviguer('enseignant-evaluation')">Ajouter une
                 evaluation</button>
         </div>
     </div>
@@ -48,7 +48,7 @@
                 <h2>Mes cours publies</h2>
                 <p>Retrouvez vos cours deja publies et corrigez-les si necessaire.</p>
             </div>
-            <button class="btn btn-primary" onclick="naviguer('enseignant-cours')">Nouveau cours</button>
+            <button class="btn btn-primary" onclick="window.location.hash='enseignant-cours';naviguer('enseignant-cours')">Nouveau cours</button>
         </div>
         <div id="liste-cours-enseignant" class="tableau-simple">
             <p class="message-vide">Aucun cours ajoute pour le moment.</p>

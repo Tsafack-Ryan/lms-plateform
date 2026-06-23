@@ -9,19 +9,27 @@ if ($methode === 'GET') {
     $utilisateur = utilisateurConnecte();
     if ($utilisateur && $utilisateur['role'] === 'enseignant') {
         $requete = $pdo->prepare(
-            'SELECT c.*, m.titre AS module_titre, m.code AS module_code
+            'SELECT c.*, m.titre AS module_titre, m.code AS module_code,
+                    COUNT(DISTINCT l.id) AS total_lecons
              FROM cours c
              INNER JOIN modules m ON m.id = c.module_id
+             LEFT JOIN chapitres chap ON chap.cours_id = c.id
+             LEFT JOIN lecons l ON l.chapitre_id = chap.id
              WHERE c.enseignant_id = ?
+             GROUP BY c.id
              ORDER BY c.id DESC'
         );
         $requete->execute([$utilisateur['id']]);
     } else {
         $requete = $pdo->query(
-            'SELECT c.*, m.titre AS module_titre, m.code AS module_code, u.nom AS enseignant_nom
+            'SELECT c.*, m.titre AS module_titre, m.code AS module_code, u.nom AS enseignant_nom,
+                    COUNT(DISTINCT l.id) AS total_lecons
              FROM cours c
              INNER JOIN modules m ON m.id = c.module_id
              INNER JOIN utilisateurs u ON u.id = c.enseignant_id
+             LEFT JOIN chapitres chap ON chap.cours_id = c.id
+             LEFT JOIN lecons l ON l.chapitre_id = chap.id
+             GROUP BY c.id
              ORDER BY c.id DESC'
         );
     }

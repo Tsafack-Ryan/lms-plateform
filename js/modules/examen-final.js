@@ -189,7 +189,10 @@ function terminerExamen() {
     });
 
     var btnRetour = document.getElementById("btn-retour-cours-examen");
-    if (btnRetour) btnRetour.onclick = function () { naviguer("catalogue"); };
+    if (btnRetour) btnRetour.onclick = function () {
+        window.location.hash = "catalogue";
+        naviguer("catalogue");
+    };
 
     var btnRecommencer = document.getElementById("btn-recommencer-examen");
     if (btnRecommencer) btnRecommencer.onclick = function () {

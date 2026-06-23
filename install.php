@@ -9,6 +9,20 @@ require_once __DIR__ . '/config/database.php';
 header('Content-Type: text/html; charset=utf-8');
 
 try {
+    // Connexion temporaire SANS dbname pour créer la base si elle n'existe pas encore.
+    // obtenirConnexion() inclut 'dbname=lms_plateforme' et crasherait si la base est absente.
+    $tempPdo = new PDO(
+        'mysql:host=' . DB_HOST . ';charset=utf8mb4',
+        DB_USER,
+        DB_PASSWORD,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
+    $tempPdo->exec(
+        "CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+    );
+    $tempPdo->exec("USE `" . DB_NAME . "`");
+    $tempPdo = null; // libérer la connexion temporaire
+
     $pdo = obtenirConnexion();
 
     // Lire et exécuter le schéma SQL

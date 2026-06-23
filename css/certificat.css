@@ -101,3 +101,48 @@
         padding: 20px;
     }
 }
+
+/* =============================
+   IMPRESSION / PDF
+   ============================= */
+@media print {
+    /* Masquer tout sauf le certificat */
+    body * {
+        visibility: hidden !important;
+    }
+
+    #modal-certificat,
+    #modal-certificat *,
+    #zone-rendu-certificat,
+    #zone-rendu-certificat * {
+        visibility: visible !important;
+    }
+
+    /* Positionner le certificat en pleine page */
+    #modal-certificat {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: white !important;
+        backdrop-filter: none !important;
+        display: block !important;
+        padding: 0 !important;
+        z-index: 9999 !important;
+    }
+
+    .boite-modale-certificat {
+        width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 24px !important;
+    }
+
+    /* Masquer les boutons d'action */
+    .actions-modale,
+    #btn-fermer-modale,
+    #btn-imprimer-certificat {
+        display: none !important;
+    }
+}

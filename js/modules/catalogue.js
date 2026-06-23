@@ -54,10 +54,12 @@ function chargerCatalogue() {
                     var coursTermine = false;
                     // Verifier si toutes les lecons de ce cours sont terminees
                     if (resProg.succes) {
-                        var leconsCours = progressions.filter(function (p) { return Number(p.cours_id) === Number(c.id); });
-                        // On aura besoin du nombre total de lecons pour ce cours
-                        // Approximation : verifier si le cours a des progressions a 100%
-                        coursTermine = leconsCours.length > 0 && leconsCours.every(function (p) { return p.statut === "terminee"; });
+                        var leconsCours = progressions.filter(function (p) {
+                            return Number(p.cours_id) === Number(c.id) && p.statut === "terminee";
+                        });
+                        var totalLecons = Number(c.total_lecons) || 0;
+                        // Un cours est "terminé" uniquement si l'étudiant a terminé TOUTES ses leçons
+                        coursTermine = totalLecons > 0 && leconsCours.length >= totalLecons;
                     }
 
                     html += '<article class="carte-cours' + (coursTermine ? ' carte-termine' : '') + '">' +
