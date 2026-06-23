@@ -3,11 +3,16 @@
 }
 
 .formulaire-evaluation {
-    padding: 24px;
+    padding: 28px;
     border: 1px solid var(--couleur-bordure);
     border-radius: var(--rayon);
     background: var(--couleur-surface);
     box-shadow: var(--ombre-carte);
+    transition: var(--transition);
+}
+
+.formulaire-evaluation:hover {
+    box-shadow: var(--ombre-carte-hover);
 }
 
 .grille-options {
@@ -23,5 +28,9 @@
 
     .actions-formulaire {
         flex-direction: column;
+    }
+
+    .formulaire-evaluation {
+        padding: 20px;
     }
 }

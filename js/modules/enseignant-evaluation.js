@@ -2,8 +2,8 @@
 
 function switcherOngletEvaluation(onglet) {
     // Mettre a jour les boutons d'onglet
-    document.querySelectorAll(".btn-onglet-eval").forEach(function (btn) {
-        btn.classList.toggle("actif", btn.dataset.onglet === onglet);
+    document.querySelectorAll(".btn-filter").forEach(function (btn) {
+        btn.classList.toggle("active", btn.dataset.onglet === onglet);
     });
 
     // Afficher/masquer les zones

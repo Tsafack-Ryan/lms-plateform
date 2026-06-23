@@ -65,6 +65,22 @@ if ($action === 'soumettre_examen') {
         reponseJson(['succes' => false, 'message' => 'Terminez toutes les lecons avant l\'examen final.'], 403);
     }
 
+    // Vérifier que tous les quiz associés aux leçons sont réussis (note >= 80)
+    $stmtQuiz = $pdo->prepare('
+        SELECT COUNT(*) FROM lecons l
+        INNER JOIN evaluations e ON e.lecon_id = l.id
+        INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+        WHERE chap.cours_id = ?
+        AND NOT EXISTS (
+            SELECT 1 FROM progressions p 
+            WHERE p.lecon_id = l.id AND p.etudiant_id = ? AND p.statut = "terminee" AND p.note >= 80
+        )
+    ');
+    $stmtQuiz->execute([$coursId, $utilisateur['id']]);
+    if ((int) $stmtQuiz->fetchColumn() > 0) {
+        reponseJson(['succes' => false, 'message' => 'Reussissez tous les quiz avant l\'examen final.'], 403);
+    }
+
     // Récupérer toutes les questions de l'examen final
     $stmtQuestions = $pdo->prepare('SELECT id FROM examens_finaux WHERE cours_id = ? ORDER BY id ASC');
     $stmtQuestions->execute([$coursId]);

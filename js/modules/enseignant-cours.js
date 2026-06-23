@@ -47,8 +47,8 @@ function chargerCoursListe() {
                 '</div>' +
                 '<div class="actions-cours-enseignant">' +
                 '<button class="btn-modifier-cours" onclick="ouvrirModificationCours(' + c.id + ', \'' + echapperJs(c.titre) + '\', \'' + echapperJs(c.module_code) + '\', \'' + echapperJs(c.description) + '\')">Modifier</button>' +
-                '<button class="btn-secondaire" onclick="window.location.hash=\'enseignant-lecon?cours_id=' + c.id + '\';naviguer(\'enseignant-lecon?cours_id=' + c.id + '\')">Lecons</button>' +
-                '<button class="btn-secondaire" onclick="window.location.hash=\'enseignant-evaluation?cours_id=' + c.id + '\';naviguer(\'enseignant-evaluation?cours_id=' + c.id + '\')">Quiz</button>' +
+                '<button class="btn btn-secondary btn-sm" onclick="window.location.hash=\'enseignant-lecon?cours_id=' + c.id + '\';naviguer(\'enseignant-lecon?cours_id=' + c.id + '\')">Lecons</button>' +
+                '<button class="btn btn-secondary btn-sm" onclick="window.location.hash=\'enseignant-evaluation?cours_id=' + c.id + '\';naviguer(\'enseignant-evaluation?cours_id=' + c.id + '\')">Quiz</button>' +
                 '<button class="btn-supprimer-cours" onclick="supprimerCours(' + c.id + ')">Supprimer</button>' +
                 '</div>' +
                 '</div>';
@@ -101,8 +101,8 @@ function ouvrirModificationCours(id, titre, moduleCode, description) {
             '<textarea id="edit-description-cours" rows="4">' + echapperHtml(description) + '</textarea>' +
             '</div>' +
             '<div class="actions-formulaire">' +
-            '<button onclick="sauvegarderModificationCours(' + id + ')">Enregistrer</button>' +
-            '<button class="btn-secondaire" onclick="fermerModificationCours()">Annuler</button>' +
+            '<button class="btn btn-primary" onclick="sauvegarderModificationCours(' + id + ')">Enregistrer</button>' +
+            '<button class="btn btn-secondary" onclick="fermerModificationCours()">Annuler</button>' +
             '</div>' +
             '</div>';
         document.body.appendChild(modal);

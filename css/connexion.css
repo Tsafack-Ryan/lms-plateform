@@ -3,28 +3,30 @@
     display: grid;
     place-items: center;
     padding: 32px;
-    background: var(--couleur-fond);
+    background: linear-gradient(135deg, #f0f4f9 0%, #e2e8f0 100%);
 }
 
 .carte-connexion {
-    width: min(100%, 480px);
-    padding: 30px;
+    width: min(100%, 460px);
+    padding: 36px;
     border: 1px solid var(--couleur-bordure);
     border-radius: var(--rayon);
     background: var(--couleur-surface);
-    box-shadow: var(--ombre-carte);
+    box-shadow: var(--ombre-elevee);
+    animation: glisser-haut 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .connexion-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
+    text-align: center;
 }
 
 .badge-plateforme {
     display: inline-flex;
     margin-bottom: 12px;
-    padding: 6px 10px;
+    padding: 6px 14px;
     border-radius: 999px;
-    background: #eaf1ff;
+    background: linear-gradient(135deg, #eaf1ff, #dbeafe);
     color: var(--couleur-primaire);
     font-size: 12px;
     font-weight: 800;
@@ -33,19 +35,22 @@
 .connexion-header h2 {
     margin-bottom: 8px;
     font-size: 28px;
+    font-weight: 800;
 }
 
 .connexion-header p,
 .pied-connexion p,
 .footer-connexion p {
     color: var(--couleur-texte-secondaire);
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 .choix-role {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .option-role {
@@ -53,14 +58,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 46px;
+    min-height: 48px;
     border: 1px solid var(--couleur-bordure);
-    border-radius: var(--rayon);
+    border-radius: var(--rayon-petit);
     background: #f8fafc;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 14px;
     text-align: center;
     cursor: pointer;
+    transition: var(--transition);
+}
+
+.option-role:hover {
+    border-color: #94a3b8;
+    background: #f1f5f9;
 }
 
 .option-role input {
@@ -71,37 +82,57 @@
 .option-role:has(input:checked),
 .option-role.active {
     border-color: var(--couleur-primaire);
-    background: #eaf1ff;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
     color: var(--couleur-primaire);
+    font-weight: 800;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
 }
 
 #btn-connexion,
 #bouton-inscription {
     width: 100%;
-    min-height: 46px;
+    min-height: 48px;
     border: none;
-    border-radius: var(--rayon);
-    background: var(--couleur-primaire);
+    border-radius: var(--rayon-petit);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: #ffffff;
     font-weight: 800;
+    font-size: 16px;
+    transition: var(--transition);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
 }
 
 #btn-connexion:hover,
 #bouton-inscription:hover {
-    background: var(--couleur-primaire-foncee);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    box-shadow: 0 6px 24px rgba(37, 99, 235, 0.4);
+    transform: translateY(-1px);
+}
+
+#btn-connexion:active,
+#bouton-inscription:active {
+    transform: scale(0.98);
 }
 
 .pied-connexion,
 .footer-connexion {
-    margin-top: 18px;
+    margin-top: 20px;
     text-align: center;
     font-size: 14px;
+    color: var(--couleur-texte-secondaire);
 }
 
 .pied-connexion a,
 .footer-connexion a {
     color: var(--couleur-primaire);
     font-weight: 800;
+    transition: var(--transition);
+}
+
+.pied-connexion a:hover,
+.footer-connexion a:hover {
+    color: var(--couleur-primaire-foncee);
+    text-decoration: underline;
 }
 
 /* Conteneur du champ mot de passe avec bouton toggle */
@@ -131,7 +162,7 @@
     background: transparent;
     color: var(--couleur-texte-secondaire);
     cursor: pointer;
-    transition: color 0.15s, background 0.15s;
+    transition: var(--transition);
 }
 
 .btn-basculer-mot-passe:hover {
@@ -141,4 +172,18 @@
 
 .btn-basculer-mot-passe:active {
     background: #e2e8f0;
+}
+
+@media (max-width: 500px) {
+    .carte-connexion {
+        padding: 24px 20px;
+    }
+
+    .connexion-header h2 {
+        font-size: 24px;
+    }
+
+    .choix-role {
+        grid-template-columns: 1fr;
+    }
 }

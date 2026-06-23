@@ -3,73 +3,101 @@
 }
 
 .header-certificats {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .header-certificats h1 {
     margin-bottom: 8px;
     font-size: 32px;
+    font-weight: 800;
 }
 
 .header-certificats p {
     color: var(--couleur-texte-secondaire);
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .grille-certificats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 #modal-certificat {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 100;
     display: grid;
     place-items: center;
     padding: 24px;
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    animation: fade-in 0.2s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .boite-modale-certificat {
     width: min(100%, 820px);
     position: relative;
-    padding: 28px;
+    padding: 32px;
     border-radius: var(--rayon);
     background: var(--couleur-surface);
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+    box-shadow: var(--ombre-elevee);
+    animation: echelle-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes echelle-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #btn-fermer-modale {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--couleur-bordure);
-    border-radius: 999px;
-    background: #f8fafc;
-    font-weight: 900;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
 }
 
 #zone-rendu-certificat {
     min-height: 360px;
     border: 2px solid #c9a227;
-    border-radius: var(--rayon);
+    border-radius: var(--rayon-petit);
     background: #fffdf5;
 }
 
 .actions-modale {
     display: flex;
     justify-content: flex-end;
-    margin-top: 18px;
+    margin-top: 20px;
 }
 
-#btn-imprimer-certificat {
-    border: none;
-    border-radius: var(--rayon);
-    padding: 12px 18px;
-    background: var(--couleur-primaire);
-    color: #ffffff;
-    font-weight: 800;
+@media (max-width: 700px) {
+    .header-certificats h1 {
+        font-size: 26px;
+    }
+
+    .grille-certificats {
+        grid-template-columns: 1fr;
+    }
+
+    .boite-modale-certificat {
+        padding: 20px;
+    }
 }

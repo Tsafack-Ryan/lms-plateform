@@ -3,41 +3,85 @@
 }
 
 .header-catalogue {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .header-catalogue h1 {
     margin-bottom: 8px;
     font-size: 32px;
+    font-weight: 800;
 }
 
 .header-catalogue p {
     color: var(--couleur-texte-secondaire);
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .barre-filtres {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 24px;
-}
-
-.btn-filter {
-    border: 1px solid var(--couleur-bordure);
-    border-radius: 999px;
-    padding: 10px 16px;
-    background: #ffffff;
-    color: var(--couleur-texte-secondaire);
-    font-weight: 800;
-}
-
-.btn-filter:hover,
-.btn-filter.active {
-    border-color: var(--couleur-primaire);
-    background: #eaf1ff;
-    color: var(--couleur-primaire);
+    margin-bottom: 28px;
 }
 
 #grille-catalogue-cours {
     min-height: 220px;
+}
+
+/* Carte de cours avec badge termine */
+.carte-cours {
+    position: relative;
+    overflow: hidden;
+}
+
+.badge-termine {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #16a34a;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    border: 2px solid #16a34a;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
+    z-index: 2;
+}
+
+.carte-termine {
+    border-color: #bbf7d0 !important;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%) !important;
+}
+
+.carte-termine:hover {
+    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.12), 0 4px 8px rgba(15, 23, 42, 0.06) !important;
+}
+
+.grille-cours {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .header-catalogue h1 {
+        font-size: 26px;
+    }
+
+    .barre-filtres {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 700px) {
+    .header-catalogue h1 {
+        font-size: 22px;
+    }
+
+    .grille-cours {
+        grid-template-columns: 1fr;
+    }
 }

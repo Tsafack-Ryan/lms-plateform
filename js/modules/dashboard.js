@@ -60,7 +60,7 @@ function carteCoursDashboard(cours, avecBouton) {
     avecBouton = avecBouton || false;
     var pourcentage = Number(cours.pourcentage || 0);
     var bouton = avecBouton
-        ? '<button class="btn-action-majeure" onclick="window.location.hash=\'visionneuse?id=' + cours.id + '\';naviguer(\'visionneuse?id=' + cours.id + '\')">Continuer</button>'
+        ? '<button class="btn btn-primary" onclick="window.location.hash=\'visionneuse?id=' + cours.id + '\';naviguer(\'visionneuse?id=' + cours.id + '\')">Continuer</button>'
         : "";
     return '<article class="carte-cours carte-cours-progression">' +
         '<span class="badge-module">' + echapperHtml(cours.module_titre) + '</span>' +

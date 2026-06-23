@@ -15,10 +15,10 @@ function chargerCatalogue() {
         })).values());
 
         if (barreFiltres) {
-            var filtresHtml = '<button class="btn-filter active" data-technologie="tous">Tous</button>';
+            var filtresHtml = '<button class="btn btn-filter active" data-technologie="tous">Tous</button>';
             for (var i = 0; i < modules.length; i++) {
                 var m = modules[i];
-                filtresHtml += '<button class="btn-filter" data-technologie="' + String(m.code).toLowerCase() + '">' + echapperHtml(m.titre) + '</button>';
+                filtresHtml += '<button class="btn btn-filter" data-technologie="' + String(m.code).toLowerCase() + '">' + echapperHtml(m.titre) + '</button>';
             }
             barreFiltres.innerHTML = filtresHtml;
         }
@@ -38,18 +38,39 @@ function chargerCatalogue() {
                 return;
             }
 
-            var html = "";
-            for (var i = 0; i < liste.length; i++) {
-                var c = liste[i];
-                html += '<article class="carte-cours">' +
-                    '<span class="badge-module">' + echapperHtml(c.module_titre) + '</span>' +
-                    '<h3>' + echapperHtml(c.titre) + '</h3>' +
-                    '<p>' + echapperHtml(c.description) + '</p>' +
-                    '<small>Enseignant : ' + echapperHtml(c.enseignant_nom || "Non assigne") + '</small>' +
-                    '<button onclick="window.location.hash=\'visionneuse?id=' + c.id + '\';naviguer(\'visionneuse?id=' + c.id + '\')" class="btn-action-majeure">Demarrer le cours</button>' +
-                    '</article>';
-            }
-            g.innerHTML = html;
+            // Charger la progression pour marquer les cours termines
+            requeteJson("api/progression.php").then(function (resProg) {
+                var progressions = resProg.succes ? resProg.progressions : [];
+                var leconsTerminees = {};
+                for (var p = 0; p < progressions.length; p++) {
+                    var prog = progressions[p];
+                    var cle = prog.cours_id + '_' + prog.lecon_id;
+                    leconsTerminees[cle] = true;
+                }
+
+                var html = "";
+                for (var i = 0; i < liste.length; i++) {
+                    var c = liste[i];
+                    var coursTermine = false;
+                    // Verifier si toutes les lecons de ce cours sont terminees
+                    if (resProg.succes) {
+                        var leconsCours = progressions.filter(function (p) { return Number(p.cours_id) === Number(c.id); });
+                        // On aura besoin du nombre total de lecons pour ce cours
+                        // Approximation : verifier si le cours a des progressions a 100%
+                        coursTermine = leconsCours.length > 0 && leconsCours.every(function (p) { return p.statut === "terminee"; });
+                    }
+
+                    html += '<article class="carte-cours' + (coursTermine ? ' carte-termine' : '') + '">' +
+                        (coursTermine ? '<span class="badge-termine">Terminé !!</span>' : '') +
+                        '<span class="badge-module">' + echapperHtml(c.module_titre) + '</span>' +
+                        '<h3>' + echapperHtml(c.titre) + '</h3>' +
+                        '<p>' + echapperHtml(c.description) + '</p>' +
+                        '<small>Enseignant : ' + echapperHtml(c.enseignant_nom || "Non assigne") + '</small>' +
+                        '<button onclick="window.location.hash=\'visionneuse?id=' + c.id + '\';naviguer(\'visionneuse?id=' + c.id + '\')" class="btn btn-primary">' + (coursTermine ? 'Revoir le cours' : 'Demarrer le cours') + '</button>' +
+                        '</article>';
+                }
+                g.innerHTML = html;
+            });
         }
 
         afficher("tous");

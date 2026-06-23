@@ -1,7 +1,8 @@
 // --- QUIZ ---
 
 var quizQuestions = [];
-var quizLeconId = 0;
+var quizLeconId = 0;      // 0 si mode chapitre
+var quizChapitreId = 0;   // 0 si mode lecon
 var quizIndex = 0;
 var quizScore = 0;
 var quizReponses = {};
@@ -10,10 +11,19 @@ var quizMinuteur = null;
 function chargerQuiz() {
     var hash = window.location.hash;
     var params = new URLSearchParams(hash.split("?")[1]);
-    var id = params.get("lecon_id");
-    if (!id) return;
+    var leconId = params.get("lecon_id");
+    var chapitreId = params.get("chapitre_id");
+    var apiUrl = "";
 
-    requeteJson("api/evaluations.php?lecon_id=" + id).then(function (res) {
+    if (chapitreId) {
+        apiUrl = "api/evaluations.php?chapitre_id=" + chapitreId;
+    } else if (leconId) {
+        apiUrl = "api/evaluations.php?lecon_id=" + leconId;
+    } else {
+        return;
+    }
+
+    requeteJson(apiUrl).then(function (res) {
         var start = document.getElementById("btn-lancer-quiz");
         var intro = document.getElementById("boite-quiz");
         var jeu = document.getElementById("quiz-jeu");
@@ -25,7 +35,13 @@ function chargerQuiz() {
 
         // Stocker les questions et le contexte pour la session
         quizQuestions = res.evaluations;
-        quizLeconId = Number(id);
+        if (chapitreId) {
+            quizChapitreId = Number(chapitreId);
+            quizLeconId = 0;
+        } else {
+            quizLeconId = Number(leconId);
+            quizChapitreId = 0;
+        }
 
         // Mettre à jour le nombre total de questions dans l'intro
         var totalEl = document.getElementById("nombre-total-questions");
@@ -137,8 +153,6 @@ function terminerQuiz() {
     var texteScore = document.getElementById("texte-score");
     var feedback = document.getElementById("feedback-resultat");
     var icone = document.getElementById("icone-resultat");
-    var btnCert = document.getElementById("btn-voir-certificat");
-    if (btnCert) btnCert.disabled = true;
 
     // Afficher "Calcul en cours..." pendant l'appel serveur
     if (texteScore) texteScore.textContent = "Calcul du score...";
@@ -146,8 +160,13 @@ function terminerQuiz() {
 
     // Envoyer les résultats au serveur (c'est lui qui calcule le score)
     var d = new FormData();
-    d.append("action", "soumettre_evaluation");
-    d.append("lecon_id", quizLeconId);
+    if (quizChapitreId > 0) {
+        d.append("action", "soumettre_evaluation_chapitre");
+        d.append("chapitre_id", quizChapitreId);
+    } else {
+        d.append("action", "soumettre_evaluation");
+        d.append("lecon_id", quizLeconId);
+    }
     d.append("reponses", JSON.stringify(quizReponses));
 
     requeteJson("api/progression.php", { method: "POST", body: d }).then(function (res) {
@@ -158,20 +177,15 @@ function terminerQuiz() {
 
             if (texteScore) texteScore.textContent = "Score: " + nbBonnes + "/" + quizQuestions.length + " (" + Math.round(noteServeur) + "%)";
             if (feedback) feedback.textContent = reussi
-                ? "Felicitations, vous avez valide ce module !"
-                : "Score insuffisant. Vous devez obtenir au moins 80% pour valider ce module.";
+                ? "Felicitations, vous avez valide ce quiz !"
+                : "Score insuffisant. Vous devez obtenir au moins 80% pour valider ce quiz.";
             if (icone) icone.textContent = reussi ? "OK" : "X";
-            if (btnCert) {
-                btnCert.disabled = !reussi;
-                btnCert.classList.toggle("masque", !reussi);
-                if (reussi) {
-                    btnCert.onclick = function () {
-                        window.location.hash = "certificats";
-                        naviguer("certificats");
-                    };
-                }
+
+            if (reussi) {
+                afficherMessage("Quiz reussi !", "succes");
+            } else {
+                afficherMessage("Score insuffisant. Reessayez !", "erreur");
             }
-            afficherMessage("Resultats enregistres !", "succes");
         } else {
             if (feedback) feedback.textContent = "Erreur d'enregistrement : " + (res.message || "");
             afficherMessage("Erreur d'enregistrement : " + (res.message || ""), "erreur");
@@ -179,12 +193,20 @@ function terminerQuiz() {
     });
 
     var btnRetour = document.getElementById("btn-retour-cours");
-    if (btnRetour) btnRetour.onclick = function () { naviguer("catalogue"); };
+    if (btnRetour) btnRetour.onclick = function () {
+        // Retourner a la visionneuse grace a la variable globale
+        if (typeof coursActuelId !== 'undefined' && coursActuelId) {
+            window.location.hash = "visionneuse?id=" + coursActuelId;
+            naviguer("visionneuse?id=" + coursActuelId);
+        } else {
+            window.location.hash = "catalogue";
+            naviguer("catalogue");
+        }
+    };
 
     var btnRecommencer = document.getElementById("btn-recommencer-quiz");
     if (btnRecommencer) btnRecommencer.onclick = function () {
         resDiv.classList.add("masque");
-        if (btnCert) btnCert.classList.add("masque");
         document.getElementById("quiz-jeu").classList.remove("masque");
         demarrerQuiz();
     };

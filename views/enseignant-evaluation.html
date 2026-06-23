@@ -2,9 +2,9 @@
     <div class="header-formulaire">
         <h1>Gestion des evaluations</h1>
         <div class="onglets-evaluation" style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn-onglet-eval actif" data-onglet="quiz" onclick="switcherOngletEvaluation('quiz')">Creer un
+            <button class="btn btn-filter active" data-onglet="quiz" onclick="switcherOngletEvaluation('quiz')">Creer un
                 quiz</button>
-            <button class="btn-onglet-eval" data-onglet="examen" onclick="switcherOngletEvaluation('examen')">Creer
+            <button class="btn btn-filter" data-onglet="examen" onclick="switcherOngletEvaluation('examen')">Creer
                 examen final</button>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 </select>
             </div>
             <div class="actions-formulaire">
-                <button type="submit">Ajouter la question</button>
+                <button type="submit" class="btn btn-primary">Ajouter la question</button>
             </div>
         </form>
     </div>
@@ -100,7 +100,7 @@
                 </select>
             </div>
             <div class="actions-formulaire">
-                <button type="submit">Ajouter la question</button>
+                <button type="submit" class="btn btn-primary">Ajouter la question</button>
             </div>
         </form>
     </div>

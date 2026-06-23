@@ -3,12 +3,14 @@
 var leconsCoursActuel = [];
 var leconActuelleIndex = -1;
 var chapitresCours = [];
+var coursActuelId = null; // Stocke l'ID du cours en cours de visionneuse
 
 function chargerVisionneuse() {
     var hash = window.location.hash;
     var params = new URLSearchParams(hash.split("?")[1]);
     var id = params.get("id");
     if (!id) { window.location.hash = "catalogue"; naviguer("catalogue"); return; }
+    coursActuelId = Number(id);
 
     var btnRetour = document.getElementById("btn-retour-catalogue");
     if (btnRetour) btnRetour.onclick = function () { window.location.hash = "catalogue"; naviguer("catalogue"); };
@@ -76,17 +78,64 @@ function chargerVisionneuse() {
             } else {
                 html += '<p class="message-vide">Aucune lecon dans ce chapitre.</p>';
             }
-            html += '</div></div>';
+            // Bouton Quiz du chapitre (Coursera-like)
+            html += '<div class="quiz-chapitre-bouton" data-chapitre-id="' + chap.id + '">' +
+                '<button class="btn btn-secondary btn-sm btn-quiz-chapitre" onclick="lancerQuizChapitre(' + chap.id + ', ' + id + ')" disabled>' +
+                'Quiz du chapitre <span class="statut-quiz-chapitre">(verification...)</span>' +
+                '</button>' +
+                '</div>' +
+                '</div></div>';
         }
 
         // Ajouter le bouton "Examen final" si toutes les lecons sont chargees
         html += '<div class="examen-final-bouton-visionneuse" style="margin-top:16px;padding:12px;text-align:center;">' +
-            '<button class="btn-action-majeure" onclick="verifierExamenFinal(' + id + ')" style="width:100%;">Passer l\'examen final</button>' +
+            '<button class="btn btn-primary btn-full" onclick="verifierExamenFinal(' + id + ')">Passer l\'examen final</button>' +
             '</div>';
 
         list.innerHTML = html;
 
+        // Verifier le statut de chaque chapitre pour activer/desactiver les quiz dans le menu lateral
+        for (var i = 0; i < res.chapitres.length; i++) {
+            verifierStatutChapitre(res.chapitres[i].id);
+        }
+
         if (leconsCoursActuel.length > 0) voirLeconParIndex(0);
+    });
+}
+
+function verifierStatutChapitre(chapitreId) {
+    requeteJson("api/progression.php?verifier_chapitre=" + chapitreId).then(function (res) {
+        var boutonContainer = document.querySelector('.quiz-chapitre-bouton[data-chapitre-id="' + chapitreId + '"]');
+        if (!boutonContainer) return;
+        var btn = boutonContainer.querySelector('.btn-quiz-chapitre');
+        var statut = boutonContainer.querySelector('.statut-quiz-chapitre');
+        if (!btn || !statut) return;
+
+        if (res.succes && res.toutes_terminees) {
+            btn.disabled = false;
+            btn.classList.add('accessible');
+            statut.textContent = '(pret)';
+            statut.style.color = '#16a34a';
+        } else {
+            btn.disabled = true;
+            btn.classList.remove('accessible');
+            var reste = (res.total || 0) - (res.terminees || 0);
+            statut.textContent = '(' + reste + ' lecon(s) restante(s))';
+            statut.style.color = '#94a3b8';
+        }
+    });
+}
+
+function lancerQuizChapitre(chapitreId, coursId) {
+    // Verifier d'abord que toutes les lecons sont terminees
+    requeteJson("api/progression.php?verifier_chapitre=" + chapitreId).then(function (res) {
+        if (res.succes && res.toutes_terminees) {
+            window.location.hash = "quiz?chapitre_id=" + chapitreId;
+            naviguer("quiz?chapitre_id=" + chapitreId);
+        } else {
+            var reste = (res.total || 0) - (res.terminees || 0);
+            afficherMessage("Terminez toutes les lecons de ce chapitre (" + reste + " restante(s)) avant le quiz.", "erreur");
+        }
     });
 }
 
@@ -137,6 +186,7 @@ function voirLecon(id) {
         var zone = document.getElementById("contenu-texte-lecon");
         var titre = document.getElementById("titre-lecon-actuelle");
         var barre = document.getElementById("barre-actions-lecon");
+        var zoneQuiz = document.getElementById("zone-quiz-chapitre");
 
         if (titre) titre.textContent = l.titre;
         if (zone) {
@@ -149,9 +199,6 @@ function voirLecon(id) {
             }
         }
         if (barre) barre.classList.remove("masquee");
-
-        var bq = document.getElementById("btn-passer-quiz");
-        if (bq) bq.onclick = function () { window.location.hash = "quiz?lecon_id=" + l.id; naviguer("quiz?lecon_id=" + l.id); };
 
         var bp = document.getElementById("btn-lecon-precedente");
         if (bp) {
@@ -173,6 +220,10 @@ function voirLecon(id) {
             requeteJson("api/progression.php", { method: "POST", body: d }).then(function (res) {
                 if (res.succes) {
                     afficherMessage("Lecon marquee comme lue.", "succes");
+                    // Rafraichir le statut du chapitre apres avoir marque la lecon
+                    if (l.chapitre_id) verifierStatutChapitre(l.chapitre_id);
+                    // Mettre a jour la zone quiz si c'est la derniere lecon du chapitre
+                    afficherZoneQuizChapitre(l);
                     if (leconActuelleIndex < leconsCoursActuel.length - 1) {
                         voirLeconParIndex(leconActuelleIndex + 1);
                     }
@@ -183,7 +234,75 @@ function voirLecon(id) {
             });
         };
 
+        // Afficher ou masquer la zone quiz chapitre selon si c'est la derniere lecon du chapitre
+        afficherZoneQuizChapitre(l);
+
         majProgressionCours();
+    });
+}
+
+function afficherZoneQuizChapitre(lecon) {
+    var zoneQuiz = document.getElementById("zone-quiz-chapitre");
+    if (!zoneQuiz) return;
+
+    // Trouver le chapitre de cette lecon
+    var chapitre = null;
+    for (var i = 0; i < chapitresCours.length; i++) {
+        if (chapitresCours[i].id === lecon.chapitre_id) {
+            chapitre = chapitresCours[i];
+            break;
+        }
+    }
+
+    if (!chapitre || !chapitre.lecons || chapitre.lecons.length === 0) {
+        zoneQuiz.classList.add("masque");
+        zoneQuiz.innerHTML = "";
+        return;
+    }
+
+    // Verifier si c'est la derniere lecon du chapitre
+    var derniereLecon = chapitre.lecons[chapitre.lecons.length - 1];
+    var estDerniereLecon = (Number(lecon.id) === Number(derniereLecon.id));
+
+    if (!estDerniereLecon) {
+        zoneQuiz.classList.add("masque");
+        zoneQuiz.innerHTML = "";
+        return;
+    }
+
+    // C'est la derniere lecon : afficher la zone quiz
+    zoneQuiz.classList.remove("masque");
+
+    // Verifier si toutes les lecons du chapitre sont terminees
+    requeteJson("api/progression.php?verifier_chapitre=" + chapitre.id).then(function (res) {
+        var toutesTerminees = res.succes && res.toutes_terminees;
+        var reste = (res.total || 0) - (res.terminees || 0);
+
+        if (toutesTerminees) {
+            zoneQuiz.innerHTML =
+                '<div class="zone-quiz-chapitre-pret">' +
+                '<div class="quiz-chapitre-icone">&#10003;</div>' +
+                '<div class="quiz-chapitre-texte">' +
+                '<strong>Chapitre terminé !</strong>' +
+                '<p>Vous avez complété toutes les leçons de ce chapitre. Passez maintenant le quiz pour valider vos connaissances.</p>' +
+                '</div>' +
+                '<button class="btn btn-primary btn-passer-quiz-chapitre" onclick="lancerQuizChapitre(' + chapitre.id + ', ' + coursActuelId + ')">' +
+                'Passer le quiz' +
+                '</button>' +
+                '</div>';
+        } else {
+            zoneQuiz.innerHTML =
+                '<div class="zone-quiz-chapitre-attente">' +
+                '<div class="quiz-chapitre-icone quiz-chapitre-icone-attente">&#9654;</div>' +
+                '<div class="quiz-chapitre-texte">' +
+                '<strong>Quiz du chapitre</strong>' +
+                '<p>Terminez toutes les leçons de ce chapitre pour débloquer le quiz (' + reste + ' leçon(s) restante(s)).</p>' +
+                '</div>' +
+                '<button class="btn btn-secondary btn-passer-quiz-chapitre" disabled>' +
+                'Passer le quiz' +
+                '</button>' +
+                '</div>';
+        }
     });
 }
 

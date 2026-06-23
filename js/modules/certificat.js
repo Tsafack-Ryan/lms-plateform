@@ -23,7 +23,7 @@ function chargerCertificats() {
                 '<h3>' + echapperHtml(c.cours_titre) + '</h3>' +
                 '<p>Certificat de reussite - ' + echapperHtml(c.code_certificat) + '</p>' +
                 '<p><small>Obtenu le ' + new Date(c.date_obtention).toLocaleDateString("fr-FR") + '</small></p>' +
-                '<button class="btn-action-majeure" onclick="afficherCertificat(\'' + echapperJs(c.cours_titre) + '\', \'' + echapperJs(c.date_obtention) + '\')">Voir le certificat</button>' +
+                '<button class="btn btn-primary" onclick="afficherCertificat(\'' + echapperJs(c.cours_titre) + '\', \'' + echapperJs(c.date_obtention) + '\')">Voir le certificat</button>' +
                 '</article>';
         }
         conteneur.innerHTML = html;

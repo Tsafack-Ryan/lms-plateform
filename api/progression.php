@@ -11,6 +11,32 @@ $methode = methodeHttp();
 if ($methode === 'GET') {
     $coursId = (int) ($_GET['cours_id'] ?? 0);
     $chapitreId = (int) ($_GET['chapitre_id'] ?? 0);
+    $verificationChapitre = (int) ($_GET['verifier_chapitre'] ?? 0);
+
+    // Vérifier si toutes les lecons d'un chapitre sont terminees
+    if ($verificationChapitre > 0) {
+        $stmtTotalLecons = $pdo->prepare('SELECT COUNT(*) FROM lecons WHERE chapitre_id = ?');
+        $stmtTotalLecons->execute([$verificationChapitre]);
+        $totalLecons = (int) $stmtTotalLecons->fetchColumn();
+
+        $stmtTermineesLecons = $pdo->prepare('
+            SELECT COUNT(*) FROM progressions p
+            INNER JOIN lecons l ON l.id = p.lecon_id
+            WHERE l.chapitre_id = ? AND p.etudiant_id = ? AND p.statut = "terminee"
+        ');
+        $stmtTermineesLecons->execute([$verificationChapitre, $utilisateur['id']]);
+        $termineesLecons = (int) $stmtTermineesLecons->fetchColumn();
+
+        $toutesTerminees = ($totalLecons > 0 && $termineesLecons >= $totalLecons);
+
+        reponseJson([
+            'succes' => true,
+            'total' => $totalLecons,
+            'terminees' => $termineesLecons,
+            'toutes_terminees' => $toutesTerminees,
+            'pourcentage' => $totalLecons > 0 ? round(($termineesLecons / $totalLecons) * 100) : 0,
+        ]);
+    }
 
     // Progression d'un chapitre specifique
     if ($chapitreId > 0) {
@@ -47,7 +73,8 @@ if ($methode === 'GET') {
 
         $pourcentage = $total > 0 ? round(($terminees / $total) * 100) : 0;
 
-        // Vérifier si l'examen final est débloqué (tous les chapitres ont leurs leçons terminées)
+        // Vérifier si l'examen final est débloqué :
+        // 1. Toutes les leçons de tous les chapitres sont terminées
         $stmtChapitresNonFinis = $pdo->prepare('
             SELECT COUNT(*) FROM chapitres chap
             WHERE chap.cours_id = ?
@@ -59,7 +86,42 @@ if ($methode === 'GET') {
             )
         ');
         $stmtChapitresNonFinis->execute([$coursId, $utilisateur['id']]);
-        $examen_debloque = ((int) $stmtChapitresNonFinis->fetchColumn()) === 0 && $total > 0;
+        $leconsTerminees = ((int) $stmtChapitresNonFinis->fetchColumn()) === 0 && $total > 0;
+
+        // 2. Tous les quiz de chapitres sont réussis (note >= 80)
+        // Un quiz de chapitre est réussi si toutes les leçons du chapitre ont une note >= 80
+        // (car soumettre_evaluation_chapitre enregistre la même note pour toutes les leçons du chapitre)
+        $stmtChapitresAvecEvals = $pdo->prepare('
+            SELECT COUNT(DISTINCT chap.id) FROM chapitres chap
+            INNER JOIN lecons l ON l.chapitre_id = chap.id
+            INNER JOIN evaluations e ON e.lecon_id = l.id
+            WHERE chap.cours_id = ?
+        ');
+        $stmtChapitresAvecEvals->execute([$coursId]);
+        $nbChapitresAvecEvals = (int) $stmtChapitresAvecEvals->fetchColumn();
+
+        $quizReussis = true;
+        if ($nbChapitresAvecEvals > 0) {
+            // Verifier que chaque chapitre ayant des evaluations a au moins une lecon avec note >= 80
+            $stmtChapitresQuizNonReussis = $pdo->prepare('
+                SELECT COUNT(DISTINCT chap.id) FROM chapitres chap
+                INNER JOIN lecons l ON l.chapitre_id = chap.id
+                INNER JOIN evaluations e ON e.lecon_id = l.id
+                WHERE chap.cours_id = ?
+                AND NOT EXISTS (
+                    SELECT 1 FROM progressions p
+                    INNER JOIN lecons l2 ON l2.id = p.lecon_id
+                    WHERE l2.chapitre_id = chap.id
+                    AND p.etudiant_id = ?
+                    AND p.statut = "terminee"
+                    AND p.note >= 80
+                )
+            ');
+            $stmtChapitresQuizNonReussis->execute([$coursId, $utilisateur['id']]);
+            $quizReussis = ((int) $stmtChapitresQuizNonReussis->fetchColumn()) === 0;
+        }
+
+        $examen_debloque = $leconsTerminees && $quizReussis;
 
         reponseJson([
             'succes' => true,
@@ -182,6 +244,75 @@ if ($action === 'soumettre_evaluation') {
     $stmt->execute([$utilisateur['id'], $leconId, $note]);
 
     reponseJson(['succes' => true, 'message' => 'Evaluation terminee !', 'note' => round($note, 2)]);
+}
+
+if ($action === 'soumettre_evaluation_chapitre') {
+    $chapitreId = (int) ($donnees['chapitre_id'] ?? 0);
+    $reponsesBrutes = $donnees['reponses'] ?? '[]';
+    $reponses = is_string($reponsesBrutes) ? json_decode($reponsesBrutes, true) : $reponsesBrutes;
+
+    if ($chapitreId <= 0 || empty($reponses)) {
+        reponseJson(['succes' => false, 'message' => 'Donnees invalides.'], 422);
+    }
+
+    // Récupérer toutes les leçons du chapitre
+    $stmtLecons = $pdo->prepare('SELECT l.id, chap.cours_id FROM lecons l INNER JOIN chapitres chap ON chap.id = l.chapitre_id WHERE l.chapitre_id = ? ORDER BY l.ordre ASC');
+    $stmtLecons->execute([$chapitreId]);
+    $lecons = $stmtLecons->fetchAll();
+
+    if (empty($lecons)) {
+        reponseJson(['succes' => false, 'message' => 'Chapitre introuvable.'], 404);
+    }
+
+    $coursId = (int) $lecons[0]['cours_id'];
+
+    // Vérifier inscription
+    $stmtInscription = $pdo->prepare('INSERT IGNORE INTO inscriptions (etudiant_id, cours_id) VALUES (?, ?)');
+    $stmtInscription->execute([$utilisateur['id'], $coursId]);
+
+    // Récupérer toutes les évaluations de toutes les leçons du chapitre
+    $leconIds = array_column($lecons, 'id');
+    $placeholders = implode(',', array_fill(0, count($leconIds), '?'));
+    $stmtEvals = $pdo->prepare("SELECT id FROM evaluations WHERE lecon_id IN ($placeholders) ORDER BY id ASC");
+    $stmtEvals->execute($leconIds);
+    $toutesEvals = $stmtEvals->fetchAll(PDO::FETCH_COLUMN);
+    $totalQuestions = count($toutesEvals);
+
+    if ($totalQuestions === 0) {
+        reponseJson(['succes' => false, 'message' => "Pas d'evaluation pour ce chapitre."], 404);
+    }
+
+    // Récupérer les bonnes réponses
+    $stmtBonnes = $pdo->prepare("
+        SELECT e.id, o.code_option FROM evaluations e
+        INNER JOIN options_evaluation o ON o.evaluation_id = e.id
+        WHERE e.id IN ($placeholders) AND o.est_correcte = 1
+    ");
+    $stmtBonnes->execute($toutesEvals);
+    $bonnesReponses = $stmtBonnes->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $points = 0;
+    foreach ($toutesEvals as $evalId) {
+        if (isset($reponses[$evalId]) && isset($bonnesReponses[$evalId]) && $bonnesReponses[$evalId] === $reponses[$evalId]) {
+            $points++;
+        }
+    }
+
+    $note = ($totalQuestions > 0) ? ($points / $totalQuestions) * 100 : 0;
+
+    // Enregistrer la progression pour chaque leçon du chapitre
+    $stmtProg = $pdo->prepare('
+        INSERT INTO progressions (etudiant_id, lecon_id, note, statut)
+        VALUES (?, ?, ?, "terminee")
+        ON DUPLICATE KEY UPDATE
+            note = GREATEST(progressions.note, VALUES(note)),
+            statut = "terminee"
+    ');
+    foreach ($lecons as $lecon) {
+        $stmtProg->execute([$utilisateur['id'], $lecon['id'], $note]);
+    }
+
+    reponseJson(['succes' => true, 'message' => 'Evaluation du chapitre terminee !', 'note' => round($note, 2)]);
 }
 
 reponseJson(['succes' => false, 'message' => 'Action inconnue.'], 400);

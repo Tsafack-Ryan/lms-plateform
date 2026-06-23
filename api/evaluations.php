@@ -9,9 +9,22 @@ $methode = methodeHttp();
 
 if ($methode === 'GET') {
     $leconId = (int) ($_GET['lecon_id'] ?? 0);
+    $chapitreId = (int) ($_GET['chapitre_id'] ?? 0);
     $modeEnseignant = false;
 
-    if ($leconId > 0) {
+    // Quiz par chapitre : toutes les questions des lecons du chapitre
+    if ($chapitreId > 0) {
+        $requete = $pdo->prepare('
+            SELECT e.id, e.lecon_id, e.question, l.titre AS lecon_titre, chap.id AS chapitre_id, chap.titre AS chapitre_titre, c.titre AS cours_titre
+            FROM evaluations e
+            INNER JOIN lecons l ON l.id = e.lecon_id
+            INNER JOIN chapitres chap ON chap.id = l.chapitre_id
+            INNER JOIN cours c ON c.id = chap.cours_id
+            WHERE chap.id = ?
+            ORDER BY l.ordre ASC, e.id ASC
+        ');
+        $requete->execute([$chapitreId]);
+    } elseif ($leconId > 0) {
         // Mode étudiant : quiz d'une leçon spécifique — ne pas exposer est_correcte
         $requete = $pdo->prepare('
             SELECT e.id, e.lecon_id, e.question, l.titre AS lecon_titre, c.titre AS cours_titre

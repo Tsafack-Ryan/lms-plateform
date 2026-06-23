@@ -111,7 +111,7 @@ function ouvrirModificationLecon(id, chapitreId, titre, typeContenu, ordre) {
 
         // D'abord trouver le cours a partir du chapitre
         requeteJson("api/chapitres.php").then(function (resChap) {
-            var chapitreInfo = (resChap.succes ? resChap.chapitres : []).find(function(c) { return Number(c.id) === Number(chapitreId); });
+            var chapitreInfo = (resChap.succes ? resChap.chapitres : []).find(function (c) { return Number(c.id) === Number(chapitreId); });
             coursIdCible = chapitreInfo ? Number(chapitreInfo.cours_id) : 0;
 
             if (resCours.succes) {
@@ -152,8 +152,8 @@ function ouvrirModificationLecon(id, chapitreId, titre, typeContenu, ordre) {
                 '<input type="number" id="edit-ordre-lecon" min="1" value="' + (Number(ordre) || 1) + '">' +
                 '</div>' +
                 '<div class="actions-formulaire">' +
-                '<button onclick="sauvegarderModificationLecon(' + id + ')">Enregistrer</button>' +
-                '<button class="btn-secondaire" onclick="fermerModalEdition(\'modal-modification-lecon\')">Annuler</button>' +
+                '<button class="btn btn-primary" onclick="sauvegarderModificationLecon(' + id + ')">Enregistrer</button>' +
+                '<button class="btn btn-secondary" onclick="fermerModalEdition(\'modal-modification-lecon\')">Annuler</button>' +
                 '</div>' +
                 '</div>';
             document.body.appendChild(modal);
