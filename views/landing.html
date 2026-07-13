@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Star Academy — La plateforme d'apprentissage en ligne qui vous permet de maîtriser le développement web, les bases de données et la programmation moderne.">
+    <title>Star Academy — Apprenez. Progressez. Certifiez-vous.</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/landing.css">
+</head>
+
+<body class="landing-page">
+
+    <!-- ===================== NAVBAR ===================== -->
+    <header class="landing-header" id="landing-header">
+        <nav class="landing-nav">
+            <a href="#" class="landing-logo" id="nav-logo">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 56 56" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="28" cy="28" r="6" stroke="#2563eb" stroke-width="1.5" />
+                    <path d="M28 22V8M28 48V34M22 28H8M48 28H34" stroke="#2563eb" stroke-width="1.5"
+                        stroke-linecap="round" />
+                    <path d="M22 22L14 14M34 34L42 42M34 22L42 14M22 34L14 42" stroke="#2563eb" stroke-width="1"
+                        stroke-linecap="round" opacity="0.5" />
+                    <circle cx="28" cy="8" r="2" fill="#2563eb" />
+                    <circle cx="28" cy="48" r="2" fill="#2563eb" />
+                    <circle cx="8" cy="28" r="2" fill="#2563eb" />
+                    <circle cx="48" cy="28" r="2" fill="#2563eb" />
+                </svg>
+                <span class="logo-text">STAR<span class="logo-accent">ACADEMY</span></span>
+            </a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#courses-section" id="nav-courses">Cours</a></li>
+                <li><a href="#why-section" id="nav-why">Pourquoi nous ?</a></li>
+                <li><a href="#testimonials-section" id="nav-testimonials">Témoignages</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="../index.html" class="btn-landing btn-ghost-nav" id="nav-login">Se connecter</a>
+                <a href="../index.html" class="btn-landing btn-primary-nav" id="nav-register">Commencer gratuitement</a>
+            </div>
+
+            <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ===================== HERO ===================== -->
+        <section class="hero-section" id="hero-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        Plateforme d'apprentissage &mdash; 100% gratuit
+                    </div>
+                    <h1 class="hero-title">
+                        Apprenez les technologies<br>
+                        <span class="hero-highlight">qui changent le monde</span>
+                    </h1>
+                    <p class="hero-description">
+                        Star Academy vous offre des cours structurés en HTML, CSS, JavaScript, PHP & MySQL, des quiz
+                        interactifs et des certificats reconnus pour valider vos compétences.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="../index.html" class="btn-landing btn-primary-hero" id="hero-cta-primary">
+                            Commencer maintenant
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                        <a href="#courses-section" class="btn-landing btn-ghost-hero" id="hero-cta-secondary">
+                            Voir les cours
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <strong id="stat-courses">4</strong>
+                            <span>Cours disponibles</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <strong id="stat-modules">3</strong>
+                            <span>Modules</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <strong id="stat-students">100%</strong>
+                            <span>Gratuit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="hero-card hero-card-main">
+                        <div class="hcard-header">
+                            <div class="hcard-badge">JavaScript</div>
+                            <svg class="hcard-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                        </div>
+                        <h3 class="hcard-title">JavaScript Moderne &amp; ES6</h3>
+                        <p class="hcard-sub">2 chapitres · 4 leçons · Quiz inclus</p>
+                        <div class="hcard-progress">
+                            <div class="hcard-bar"><div class="hcard-fill" style="width: 75%"></div></div>
+                            <span>75%</span>
+                        </div>
+                        <div class="hcard-instructor">
+                            <div class="hcard-avatar">A</div>
+                            <span>Professeur Alpha</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-card hero-card-mini hero-card-mini-1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <div>
+                            <strong>Leçon terminée !</strong>
+                            <span>Variables avec let &amp; const</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-card hero-card-mini hero-card-mini-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                            stroke-linecap="round">
+                            <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                        </svg>
+                        <div>
+                            <strong>Certificat obtenu</strong>
+                            <span>HTML &amp; CSS Avancé</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-bg-blob" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== LOGOS (partenaires fictifs) ===================== -->
+        <section class="logos-section" aria-label="Technologies couvertes">
+            <div class="logos-container">
+                <p class="logos-label">Technologies couvertes dans nos cours</p>
+                <div class="logos-track">
+                    <div class="logo-item">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="#e44d26" aria-label="HTML5"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z" /></svg>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="#264de4" aria-label="CSS3"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z" /></svg>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="#f0db4f" aria-label="JavaScript"><rect width="24" height="24" rx="3" fill="#f0db4f"/><path d="M6.625 15.656c.305.574.894.957 1.633.957.765 0 1.25-.374 1.25-.918 0-.637-.5-.863-1.34-1.234l-.46-.196c-1.328-.562-2.21-1.27-2.21-2.765 0-1.375 1.047-2.422 2.683-2.422 1.165 0 2.0.407 2.6 1.47l-1.422.914c-.313-.562-.652-.782-1.18-.782-.536 0-.878.343-.878.782 0 .547.342.77 1.133 1.117l.46.196c1.563.668 2.445 1.352 2.445 2.883 0 1.652-1.3 2.555-3.04 2.555-1.703 0-2.804-.809-3.34-1.867l1.464-.89zm7.094.078c.22.391.422.723 1.007.723.516 0 .844-.203.844-.992v-5.375h1.82v5.398c0 1.633-.957 2.375-2.355 2.375-1.265 0-1.997-.656-2.371-1.446l1.055-.683z"/></svg>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="#777bb3" aria-label="PHP"><path d="M12 5.793C5.373 5.793 0 8.524 0 12s5.373 6.207 12 6.207S24 15.476 24 12c0-3.476-5.373-6.207-12-6.207zm-1.738 9.012l-.424 2.098H8.38l1.14-5.717h2.5c.87 0 1.447.425 1.447 1.16 0 1.073-.857 2.459-3.205 2.459zm4.524 0l-.423 2.098h-1.458l1.14-5.717h2.5c.87 0 1.447.425 1.447 1.16 0 1.073-.857 2.459-3.206 2.459zm-5.168-.852c.755 0 1.19-.538 1.19-1.09 0-.36-.208-.57-.594-.57h-.917l-.424 1.66h.745zm5.168 0c.755 0 1.19-.538 1.19-1.09 0-.36-.208-.57-.594-.57h-.917l-.424 1.66h.745z"/></svg>
+                        <span>PHP</span>
+                    </div>
+                    <div class="logo-item">
+                        <svg viewBox="0 0 24 24" width="32" height="32" aria-label="MySQL"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.19.256.333l.01.014c.09-.04.154-.116.154-.231 0-.013 0-.022-.001-.032-.01-.073-.04-.123-.159-.13zM12 0a12 12 0 00-12 12 12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.16 5.47c.264 0 .452.05.583.17.13.12.205.296.25.534l.01.067c.02.118.03.215.03.303 0 .35-.128.552-.386.552-.124 0-.222-.039-.3-.117l-.017-.018c-.156.226-.43.335-.83.335-.2 0-.36-.05-.485-.15-.126-.1-.188-.25-.188-.444 0-.213.083-.374.25-.48a.979.979 0 01.534-.152c.27 0 .46.055.573.163l.007.007.027-.097c.035-.13.055-.228.055-.3 0-.08-.018-.14-.055-.178a.234.234 0 00-.17-.057.43.43 0 00-.24.065c-.056.037-.092.09-.108.164l-.362.027c.039-.202.14-.36.3-.476.163-.116.37-.174.62-.174zm-10.46.023c.394 0 .7.103.923.31.22.207.33.493.33.858 0 .365-.11.651-.33.858-.222.207-.529.31-.923.31s-.7-.103-.922-.31a1.068 1.068 0 01-.33-.858c0-.365.11-.651.33-.858.221-.207.528-.31.922-.31zm-2.85.083h.493l.735 2.12.727-2.12h.492l-1.01 2.825H5.44L4.85 5.576zm10.745.84l.006.002.31 1.155h-.64l.324-1.157zm-7.863.133h.457v1.775h-.457V6.549zm5.485.027c.2 0 .36.05.487.15.124.1.185.23.185.4 0 .07-.006.14-.018.22L12.48 8.35h-.38l.012-.046c-.14.112-.303.168-.492.168a.62.62 0 01-.447-.162.556.556 0 01-.162-.415c0-.18.06-.321.178-.421.118-.1.28-.15.494-.15.13 0 .24.022.333.065l.013-.047c.028-.1.028-.172.028-.21 0-.1-.03-.17-.09-.21a.382.382 0 00-.24-.067.49.49 0 00-.288.08c-.068.046-.11.11-.127.197l-.35.03c.04-.183.13-.326.268-.432.14-.104.318-.157.533-.157zm-.003.54a.375.375 0 00-.25.078.26.26 0 00-.09.203c0 .078.024.14.073.184a.283.283 0 00.195.065.418.418 0 00.27-.094.316.316 0 00.108-.185l.018-.07v-.01c-.067-.113-.183-.17-.324-.17zM6.7 6.548c.157 0 .28.043.372.129.09.085.136.204.136.354a.48.48 0 01-.017.13l-.428 1.186H6.39l.015-.054c-.135.107-.293.16-.475.16a.598.598 0 01-.432-.156.541.541 0 01-.156-.402c0-.174.056-.31.17-.407.116-.097.275-.146.482-.146.127 0 .235.02.324.063l.012-.046c.027-.095.027-.166.027-.202 0-.096-.028-.162-.087-.202a.37.37 0 00-.233-.063.469.469 0 00-.278.076c-.065.045-.107.108-.122.19l-.34.028c.04-.178.126-.317.26-.418.136-.1.307-.15.515-.15zm-3.576.027h.457v1.776H3.124V6.575zm-.29.001l-.002.005.002-.005zm3.576.482a.35.35 0 00-.238.076.25.25 0 00-.09.197c0 .076.024.136.07.177a.27.27 0 00.188.063.403.403 0 00.261-.09.3.3 0 00.105-.18l.017-.066v-.01c-.065-.11-.177-.167-.313-.167zm7.867 1.58a9.46 9.46 0 017.05 3.154.303.303 0 00-.062.013c-.33.091-.602.252-.613.56-.005.146.04.272.137.375.093.1.236.174.404.23l.205.067.108.036c.093.034.154.076.2.133.07.088.06.22-.008.347a6.58 6.58 0 01-.087.14 10.8 10.8 0 01-.293.42l-.038.05.022.024c.47.53.74 1.2.74 1.925 0 .755-.283 1.45-.784 1.988l-.027.028.024.025a8.77 8.77 0 01.393.45l.038.047c.075.098.113.198.113.3 0 .12-.048.225-.14.314-.093.09-.223.166-.387.234l-.11.042c-.14.052-.277.098-.437.15l-.118.04-.086.032.004.015c.066.238.1.488.1.745 0 1.53-.885 2.85-2.174 3.493l-.074.036.037.069A10.007 10.007 0 0012 22a10 10 0 01-9.98-9.38c.055-.009.112-.014.17-.014.32 0 .584.14.716.39l.027.054.04-.05c.107-.135.24-.226.4-.27a.844.844 0 01.42-.026c.11.022.21.07.297.143.087.073.16.17.213.296a.57.57 0 01.048.22c0 .097-.024.19-.068.28l-.084.168.186-.023c.52-.064.944-.248 1.085-.685.073-.224.053-.46-.057-.678l-.057-.113.12.026c.375.08.67.31.79.636l.026.076.06-.057c.145-.136.263-.288.35-.466.22-.455.21-.99-.023-1.443-.08-.152-.18-.292-.3-.416l-.054-.056.067-.038c.258-.15.455-.38.57-.65a1.44 1.44 0 00.083-.57c-.017-.345-.14-.638-.35-.855-.09-.1-.198-.18-.32-.242l-.07-.036.065-.046a2.023 2.023 0 00.575-.67c.12-.248.18-.525.18-.81 0-.305-.065-.59-.19-.845a1.9 1.9 0 00-.558-.67l-.082-.063.087-.05c.287-.166.51-.41.642-.71a1.71 1.71 0 00.123-.66 1.68 1.68 0 00-.135-.663 1.75 1.75 0 00-.405-.573l.006-.007A9.95 9.95 0 0112 2a9.96 9.96 0 013.877.636z" fill="#4479A1"/></svg>
+                        <span>MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== COURSES PREVIEW ===================== -->
+        <section class="courses-section" id="courses-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <p class="section-eyebrow">Catalogue de cours</p>
+                    <h2 class="section-title">Apprenez par la pratique</h2>
+                    <p class="section-subtitle">Des cours soigneusement structurés en chapitres, avec quiz interactifs
+                        et examens finaux pour valider vos acquis.</p>
+                </div>
+
+                <div class="courses-grid" id="courses-grid">
+                    <!-- Carte 1 -->
+                    <article class="course-card" id="course-card-1">
+                        <div class="course-card-header" style="background: linear-gradient(135deg, #e0f2fe, #bae6fd);">
+                            <div class="course-card-module">HTML &amp; CSS</div>
+                            <svg class="course-card-icon" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                stroke="#0284c7" stroke-width="1.5">
+                                <polyline points="16 18 22 12 16 6" />
+                                <polyline points="8 6 2 12 8 18" />
+                            </svg>
+                        </div>
+                        <div class="course-card-body">
+                            <h3 class="course-card-title">Introduction à HTML5 &amp; CSS3</h3>
+                            <p class="course-card-desc">Structure, sémantique, modèle de boîte, Flexbox et bases du
+                                responsive design.</p>
+                            <div class="course-card-meta">
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                                    2 chapitres
+                                </span>
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                                    ~4h
+                                </span>
+                            </div>
+                        </div>
+                        <div class="course-card-footer">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">A</div>
+                                <span>Prof. Alpha</span>
+                            </div>
+                            <a href="../index.html" class="course-card-btn" id="course-btn-1">Voir le cours →</a>
+                        </div>
+                    </article>
+
+                    <!-- Carte 2 -->
+                    <article class="course-card featured" id="course-card-2">
+                        <div class="featured-badge">⭐ Populaire</div>
+                        <div class="course-card-header"
+                            style="background: linear-gradient(135deg, #fef9c3, #fde68a);">
+                            <div class="course-card-module">JavaScript</div>
+                            <svg class="course-card-icon" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                stroke="#ca8a04" stroke-width="1.5">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                        </div>
+                        <div class="course-card-body">
+                            <h3 class="course-card-title">JavaScript Moderne &amp; ES6</h3>
+                            <p class="course-card-desc">DOM, événements, arrow functions, destructuring, promesses et
+                                async/await.</p>
+                            <div class="course-card-meta">
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                                    2 chapitres
+                                </span>
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                                    ~5h
+                                </span>
+                            </div>
+                        </div>
+                        <div class="course-card-footer">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">A</div>
+                                <span>Prof. Alpha</span>
+                            </div>
+                            <a href="../index.html" class="course-card-btn" id="course-btn-2">Voir le cours →</a>
+                        </div>
+                    </article>
+
+                    <!-- Carte 3 -->
+                    <article class="course-card" id="course-card-3">
+                        <div class="course-card-header" style="background: linear-gradient(135deg, #f0fdf4, #bbf7d0);">
+                            <div class="course-card-module">PHP &amp; MySQL</div>
+                            <svg class="course-card-icon" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                stroke="#16a34a" stroke-width="1.5">
+                                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                            </svg>
+                        </div>
+                        <div class="course-card-body">
+                            <h3 class="course-card-title">Backend PHP &amp; MySQL</h3>
+                            <p class="course-card-desc">Syntaxe PHP, tableaux, connexion PDO et requêtes sécurisées
+                                avec MySQL.</p>
+                            <div class="course-card-meta">
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+                                    2 chapitres
+                                </span>
+                                <span class="course-meta-item">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                                    ~6h
+                                </span>
+                            </div>
+                        </div>
+                        <div class="course-card-footer">
+                            <div class="course-instructor">
+                                <div class="instructor-avatar">A</div>
+                                <span>Prof. Alpha</span>
+                            </div>
+                            <a href="../index.html" class="course-card-btn" id="course-btn-3">Voir le cours →</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="courses-cta">
+                    <a href="../index.html" class="btn-landing btn-outline-courses" id="all-courses-btn">Voir tous les
+                        cours &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== WHY US ===================== -->
+        <section class="why-section" id="why-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <p class="section-eyebrow">Nos avantages</p>
+                    <h2 class="section-title">Pourquoi choisir Star Academy ?</h2>
+                    <p class="section-subtitle">Une expérience d'apprentissage complète, pensée pour vous faire
+                        progresser rapidement et efficacement.</p>
+                </div>
+
+                <div class="why-grid">
+                    <div class="why-card" id="why-1">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); color: #2563eb;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                        </div>
+                        <h3 class="why-title">Cours de haute qualité</h3>
+                        <p class="why-desc">Chaque cours est soigneusement structuré en chapitres progressifs avec des
+                            supports PDF et vidéo.</p>
+                    </div>
+
+                    <div class="why-card" id="why-2">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); color: #16a34a;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                        </div>
+                        <h3 class="why-title">Quiz interactifs</h3>
+                        <p class="why-desc">Testez vos connaissances à chaque chapitre avec des quiz QCM et des examens
+                            finaux notés.</p>
+                    </div>
+
+                    <div class="why-card" id="why-3">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #fefce8, #fef9c3); color: #d97706;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="6" /><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" /></svg>
+                        </div>
+                        <h3 class="why-title">Certificats reconnus</h3>
+                        <p class="why-desc">Obtenez un certificat d'accomplissement pour chaque cours complété avec
+                            succès.</p>
+                    </div>
+
+                    <div class="why-card" id="why-4">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #fdf4ff, #f3e8ff); color: #9333ea;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" /></svg>
+                        </div>
+                        <h3 class="why-title">Plusieurs rôles</h3>
+                        <p class="why-desc">Plateforme multi-rôles : étudiant, enseignant et promoteur — chacun avec
+                            son propre espace.</p>
+                    </div>
+
+                    <div class="why-card" id="why-5">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #fff1f2, #ffe4e6); color: #e11d48;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                        </div>
+                        <h3 class="why-title">Suivi de progression</h3>
+                        <p class="why-desc">Visualisez votre avancement leçon par leçon avec des barres de progression
+                            claires et intuitives.</p>
+                    </div>
+
+                    <div class="why-card" id="why-6">
+                        <div class="why-icon" style="background: linear-gradient(135deg, #ecfeff, #cffafe); color: #0891b2;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+                        </div>
+                        <h3 class="why-title">100% en ligne</h3>
+                        <p class="why-desc">Apprenez à votre rythme, depuis n'importe quel appareil, sans contraintes
+                            d'horaires.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== TESTIMONIALS ===================== -->
+        <section class="testimonials-section" id="testimonials-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <p class="section-eyebrow section-eyebrow-light">Ce qu'ils en disent</p>
+                    <h2 class="section-title section-title-light">Nos étudiants témoignent</h2>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card" id="testimonial-1">
+                        <div class="testimonial-stars" aria-label="5 étoiles">★★★★★</div>
+                        <blockquote class="testimonial-text">
+                            "La structure des cours est excellente. J'ai pu apprendre le JavaScript moderne en quelques
+                            semaines et décrocher mon premier stage !"
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">M</div>
+                            <div class="testimonial-info">
+                                <strong>Marie Dupont</strong>
+                                <span>Développeuse Front-End junior</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card" id="testimonial-2">
+                        <div class="testimonial-stars" aria-label="5 étoiles">★★★★★</div>
+                        <blockquote class="testimonial-text">
+                            "Les quiz à chaque chapitre sont vraiment efficaces pour ancrer les connaissances. Le
+                            certificat final m'a beaucoup aidé à convaincre mes futurs employeurs."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">K</div>
+                            <div class="testimonial-info">
+                                <strong>Karim Ndiaye</strong>
+                                <span>Développeur Full-Stack</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card" id="testimonial-3">
+                        <div class="testimonial-stars" aria-label="4 étoiles">★★★★☆</div>
+                        <blockquote class="testimonial-text">
+                            "En tant qu'enseignant sur la plateforme, créer et gérer mes cours est d'une simplicité
+                            remarquable. L'interface est claire et intuitive."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">S</div>
+                            <div class="testimonial-info">
+                                <strong>Sophie Martin</strong>
+                                <span>Enseignante / Développeuse Web</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CTA FINAL ===================== -->
+        <section class="final-cta-section" id="final-cta-section">
+            <div class="final-cta-container">
+                <div class="final-cta-content">
+                    <h2 class="final-cta-title">Prêt à commencer votre parcours ?</h2>
+                    <p class="final-cta-subtitle">Rejoignez Star Academy gratuitement et commencez à apprendre dès
+                        aujourd'hui.</p>
+                    <div class="final-cta-actions">
+                        <a href="../index.html" class="btn-landing btn-primary-hero" id="final-cta-btn">
+                            Commencer gratuitement
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                        <a href="../index.html" class="btn-landing btn-ghost-final" id="final-login-btn">Déjà un
+                            compte ? Se connecter</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="landing-footer" id="landing-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="landing-logo footer-logo">
+                        <svg width="28" height="28" viewBox="0 0 56 56" fill="none">
+                            <circle cx="28" cy="28" r="6" stroke="#2563eb" stroke-width="1.5" />
+                            <path d="M28 22V8M28 48V34M22 28H8M48 28H34" stroke="#2563eb" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg>
+                        <span class="logo-text">STAR<span class="logo-accent">ACADEMY</span></span>
+                    </a>
+                    <p class="footer-tagline">La plateforme d'apprentissage qui vous accompagne vers l'excellence du
+                        développement web.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-link" id="footer-github" aria-label="GitHub">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
+                        </a>
+                        <a href="#" class="social-link" id="footer-twitter" aria-label="Twitter / X">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                        </a>
+                        <a href="#" class="social-link" id="footer-linkedin" aria-label="LinkedIn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links-group">
+                    <h4 class="footer-links-title">Plateforme</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#courses-section" id="footer-courses">Cours</a></li>
+                        <li><a href="#why-section" id="footer-why">Fonctionnalités</a></li>
+                        <li><a href="../index.html" id="footer-login">Se connecter</a></li>
+                        <li><a href="../index.html" id="footer-register">S'inscrire</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-group">
+                    <h4 class="footer-links-title">Modules</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="../index.html" id="footer-html">HTML &amp; CSS</a></li>
+                        <li><a href="../index.html" id="footer-js">JavaScript</a></li>
+                        <li><a href="../index.html" id="footer-php">PHP &amp; MySQL</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-group">
+                    <h4 class="footer-links-title">Contact</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="mailto:contact@staracademy.com" id="footer-email">contact@staracademy.com</a></li>
+                        <li><span class="footer-location">Yaoundé, Cameroun</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> Star Academy. Tous droits réservés.</p>
+                <div class="footer-bottom-links">
+                    <a href="#" id="footer-privacy">Confidentialité</a>
+                    <a href="#" id="footer-terms">Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/landing.js"></script>
+</body>
+
+</html>
